@@ -1,24 +1,28 @@
 package com.ronellyson.smart_fast_food.data.model;
 
 public class Product {
-    private final String name;
-    private final String urlImage;
-    private final String description;
-    private final Number price;
 
-    public Product(String name, String urlImage, String description, Number price) {
+    private String id;
+    private String name;
+    private String image;
+    private Number price;
+    private String description;
+    private int rate;
+
+    public Product(String name, String urlImage, double responsePrice, String description, Number price) {
         this.name = name;
-        this.urlImage = urlImage;
-        this.description = description;
+        this.image = image;
         this.price = price;
+        this.description = description;
+        this.rate = rate;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getImage() {
+        return image;
     }
 
     public String getDescription() {
