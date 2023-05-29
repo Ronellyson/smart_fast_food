@@ -21,24 +21,24 @@ public class ProductListPresenter implements ProductListContract.presenter{
 
     @Override
     public void getProducts() {
-        ApiProduct.getINSTANCE().getBestFoods()
+        ApiProduct.getINSTANCE().getBestProducts()
                 .enqueue(new Callback<List<ProductResponse>>() {
                     @Override
                     public void onResponse(Call<List<ProductResponse>> call, Response<List<ProductResponse>> response) {
                         if(response.isSuccessful()){
-                            List<Product> products = ProductDTO.convertFoodResponseForProduct(response.body());
+                            List<Product> products = ProductDTO.convertProductResponseForProduct(response.body());
                             view.showProducts(products);
                         }else{
                             view.showMessageError();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<List<ProductResponse>> call, Throwable t) {
                         view.showMessageError();
                     }
                 });
     }
+
 
     @Override
     public void destroyView() {

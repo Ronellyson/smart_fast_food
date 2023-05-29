@@ -27,7 +27,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @NonNull
     @Override
     public ProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
         return new ProductListViewHolder(view);
     }
 
@@ -51,10 +51,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public ProductListViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.name_food);
-            image = itemView.findViewById(R.id.image_food);
-            price = itemView.findViewById(R.id.price_food);
-            description = itemView.findViewById(R.id.description_food);
+            name = itemView.findViewById(R.id.name_product);
+            image = itemView.findViewById(R.id.image_product);
+            price = itemView.findViewById(R.id.price_product);
+            description = itemView.findViewById(R.id.description_product);
 
         }
 

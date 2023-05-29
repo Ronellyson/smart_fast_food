@@ -2,6 +2,7 @@ package com.ronellyson.smart_fast_food.ui.productList;
 
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +19,12 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
     private RecyclerView recyclerView;
     private ProductListAdapter adapter;
     private ProductListPresenter presenter;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(androidx.appcompat.R.style.Theme_AppCompat);
         setContentView(R.layout.activity_main);
 
         configAdapter();
@@ -51,6 +54,10 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
         Toast.makeText(this, "Erro ao carregar o cardápio", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public ImageView getImageView() {
+        return imageView;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

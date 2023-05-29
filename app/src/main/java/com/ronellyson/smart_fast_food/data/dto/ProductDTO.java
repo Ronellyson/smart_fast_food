@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDTO {
-    public static List<Product> convertFoodResponseForProduct(List<ProductResponse> productResponse){
+    public static List<Product> convertProductResponseForProduct(List<ProductResponse> productResponse){
         List<Product> foods = new ArrayList<>();
 
         for(ProductResponse response: productResponse){

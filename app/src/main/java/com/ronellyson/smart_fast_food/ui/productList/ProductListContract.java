@@ -1,5 +1,7 @@
 package com.ronellyson.smart_fast_food.ui.productList;
 
+import android.widget.ImageView;
+
 import com.ronellyson.smart_fast_food.data.model.Product;
 
 import java.util.List;
@@ -12,6 +14,7 @@ public interface ProductListContract {
 
         void showMessageError();
 
+        ImageView getImageView();
     }
 
     public interface presenter {
