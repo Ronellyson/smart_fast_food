@@ -1,6 +1,7 @@
 package com.ronellyson.smart_fast_food.ui.productList;
 
 import com.ronellyson.smart_fast_food.data.dto.ProductDTO;
+import com.ronellyson.smart_fast_food.data.model.Category;
 import com.ronellyson.smart_fast_food.data.model.Product;
 import com.ronellyson.smart_fast_food.data.network.ApiProduct;
 import com.ronellyson.smart_fast_food.data.network.response.ProductResponse;
@@ -39,7 +40,26 @@ public class ProductListPresenter implements ProductListContract.presenter{
                 });
     }
 
+    public void getProductsByCategory(Category category) {
+        // Make an API call to fetch products by category
+        ApiProduct.getINSTANCE().getProductsByCategory(category.getId())
+                .enqueue(new Callback<List<ProductResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<ProductResponse>> call, Response<List<ProductResponse>> response) {
+                        if (response.isSuccessful()) {
+                            List<Product> products = ProductDTO.convertProductResponseForProduct(response.body());
+                            view.showProducts(products);
+                        } else {
+                            view.showMessageError();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<ProductResponse>> call, Throwable t) {
+                        view.showMessageError();
+                    }
+                });
+    }
     @Override
     public void destroyView() {
         this.view = null;

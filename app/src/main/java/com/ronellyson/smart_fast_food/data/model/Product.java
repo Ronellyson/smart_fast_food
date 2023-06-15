@@ -1,21 +1,18 @@
 package com.ronellyson.smart_fast_food.data.model;
 
-import com.caverock.androidsvg.SVG;
-
 public class Product {
 
     private String id;
     private String name;
-    private String image;
+    private String urlImage;
 
-    private SVG svg;
     private Number price;
     private String description;
     private int rate;
 
     public Product(String name, String urlImage, double responsePrice, String description, Number price) {
         this.name = name;
-        this.image = image;
+        this.urlImage = urlImage;
         this.price = price;
         this.description = description;
         this.rate = rate;
@@ -33,20 +30,12 @@ public class Product {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
+    public String getUrlImage() {
+        return urlImage;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public SVG getSvg() {
-        return svg;
-    }
-
-    public void setSvg(SVG svg) {
-        this.svg = svg;
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     public Number getPrice() {

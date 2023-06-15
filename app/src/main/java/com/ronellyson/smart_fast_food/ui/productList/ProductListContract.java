@@ -13,8 +13,6 @@ public interface ProductListContract {
         void showProducts(List<Product> products);
 
         void showMessageError();
-
-        ImageView getImageView();
     }
 
     public interface presenter {

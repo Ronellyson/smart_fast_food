@@ -4,112 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.productList.ProductListActivity">
+    tools:context=".ui.productList.ProductListActivity"
+    android:background="@color/whitesmoke">
 
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        style="@android:style/Widget.Material.Light.SearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button5"
-        style="@android:style/Widget.Holo.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:maxWidth="0dp"
-        android:minWidth="75dp"
-        android:padding="5dp"
-        android:text="Burgers"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <Button
-        android:id="@+id/button8"
-        style="@android:style/Widget.Holo.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:maxWidth="0dp"
-        android:minWidth="90dp"
-        android:padding="5dp"
-        android:text="Sandwiches"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <Button
-        android:id="@+id/button9"
-        style="@android:style/Widget.Holo.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:maxWidth="0dp"
-        android:minWidth="60dp"
-        android:padding="5dp"
-        android:text="Pizzas"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/button8"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <Button
-        android:id="@+id/button10"
-        style="@android:style/Widget.Holo.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:maxWidth="0dp"
-        android:minWidth="60dp"
-        android:padding="5dp"
-        android:text="Drinks"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/button9"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="Best Foods"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/searchview_background"
+        android:elevation="8dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@+id/spacer" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
+        android:id="@+id/category_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@id/searchView"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/product_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_recycler_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

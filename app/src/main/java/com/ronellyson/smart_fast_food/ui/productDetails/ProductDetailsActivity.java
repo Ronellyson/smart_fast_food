@@ -52,13 +52,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         priceProduct.setText("$"+(product.getPrice()));
         rateProduct.setText(Integer.toString(product.getRate()));
         descriptionProduct.setText(product.getDescription());
-        Picasso.get().load(product.getImage()).into(imageProduct);
+        Picasso.get().load(product.getUrlImage()).into(imageProduct);
 
         String quantityValue = quantity.getText().toString();
         int quantity = Integer.parseInt(quantityValue);
-
-
-
     }
 
     public void setAddQuantity(View view){

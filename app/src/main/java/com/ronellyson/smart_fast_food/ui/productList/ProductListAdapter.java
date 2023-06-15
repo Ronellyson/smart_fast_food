@@ -19,8 +19,10 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
 
     private List<Product> products;
+    private static ClickItem clickItem;
 
-    public ProductListAdapter() {
+    public ProductListAdapter(ClickItem clickItem) {
+        this.clickItem = clickItem;
         this.products = new ArrayList<>();
     }
 
@@ -48,6 +50,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         private TextView price;
         private TextView description;
 
+        private Product product;
         public ProductListViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -56,6 +59,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             price = itemView.findViewById(R.id.price_product);
             description = itemView.findViewById(R.id.description_product);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(clickItem != null){
+                        clickItem.onItemClicked(product);
+                    }
+                }
+            });
         }
 
         public void bind(Product product){
@@ -63,12 +74,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             price.setText("$"+(product.getPrice()));
             description.setText(product.getDescription());
 
-            Picasso.get().load(product.getImage()).into(image);
+            Picasso.get().load(product.getUrlImage()).into(image);
         }
     }
 
     public void setProducts(List<Product> products){
         this.products = products;
         notifyDataSetChanged();
+    }
+
+    public interface ClickItem{
+        void onItemClicked(Product product);
     }
 }

@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/colorPrimary" /> <!-- Defina a cor desejada -->
+    <corners android:radius="20dp" /> <!-- Defina o raio desejado para as bordas -->
+</shape>
