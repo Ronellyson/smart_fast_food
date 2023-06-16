@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -42,10 +43,12 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
         setTheme(androidx.appcompat.R.style.Theme_AppCompat);
         setContentView(R.layout.activity_main);
 
+        CategoryButtonModel model = new ViewModelProvider(this).get(CategoryButtonModel.class);
+
         configAdapter();
 
         presenter = new ProductListPresenter(this);
-        presenter.getProducts();
+        presenter.getProductsByCategory(model.getOnCategorySelect());
 
         RecyclerView category_recycler_view = findViewById(R.id.category_recycler_view);
         List<Category> buttonList = new ArrayList<>();
@@ -57,25 +60,20 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
         buttonList.add(category2);
         buttonList.add(category3);
 
-        CategoryButtonAdapter categoryButtonAdapter = new CategoryButtonAdapter(buttonList);
+        CategoryButtonAdapter categoryButtonAdapter = new CategoryButtonAdapter(buttonList, model);
         category_recycler_view.setAdapter(categoryButtonAdapter);
         category_recycler_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        // Get the ViewModel.
-        CategoryButtonModel model = new ViewModelProvider(this).get(CategoryButtonModel.class);
-
-        // Create the observer which updates the UI.
+// Create the observer which updates the UI.
         final Observer<Category> nameObserver = new Observer<Category>() {
             @Override
-            public void onChanged(@Nullable final Category category) {
-                // Update the UI, in this case, a TextView.
-                model.onChangedCategorySelect(category);
-                model.onCategorySelect();
+            public void onChanged(Category category) {
+                Log.d("", category.getName());
+                // Aqui você pode realizar as ações desejadas quando um botão for clicado.
             }
         };
 
-
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+// Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         model.onCategorySelect.observe(this, nameObserver);
 
 
@@ -101,10 +99,6 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
 
         removeSearchViewUnderline(searchView);
 
-    }
-
-    public void onCategoryClicked(Category category) {
-        presenter.getProductsByCategory(category);
     }
 
     private void removeSearchViewUnderline(SearchView searchView) {

@@ -9,18 +9,18 @@ import androidx.lifecycle.ViewModel;
 import com.ronellyson.smart_fast_food.data.model.Category;
 
 public class CategoryButtonModel extends ViewModel {
-    private Category selectedCategory = new Category(0,"");
     private MutableLiveData<Category> _onCategorySelect = new MutableLiveData<>();
-    public LiveData<Category> onCategorySelect = _onCategorySelect;
+    public MutableLiveData<Category> onCategorySelect = _onCategorySelect;
 
     public void onCategorySelect() {
-        if (_onCategorySelect != null) {
-            _onCategorySelect.setValue(selectedCategory);
-        }
+        _onCategorySelect.setValue(onCategorySelect.getValue());
     }
 
     public void onChangedCategorySelect(Category selectedCategory) {
-        this.selectedCategory = selectedCategory;
-        Log.d("sda",selectedCategory.getName());
+        onCategorySelect.setValue(selectedCategory);
+    }
+
+    public LiveData<Category> getOnCategorySelect() {
+        return onCategorySelect;
     }
 }

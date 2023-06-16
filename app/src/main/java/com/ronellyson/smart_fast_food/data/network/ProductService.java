@@ -15,5 +15,6 @@ public interface ProductService {
     Call<List<ProductResponse>> getBestProducts();
 
     @GET("products-by-category")
-    Call<List<ProductResponse>> getProductsByCategory(@Query("categoryId") int categoryId);
+    Call<List<ProductResponse>> getProductsByCategory(@Query("categoryName") String categoryName);
 }
+
