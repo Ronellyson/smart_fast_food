@@ -24,7 +24,8 @@
         android:background="@drawable/searchview_background"
         android:elevation="8dp"
         tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/spacer" />
+        app:layout_constraintTop_toBottomOf="@+id/spacer"
+        android:theme="@style/SearchViewStyle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_recycler_view"

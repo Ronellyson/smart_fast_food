@@ -2,6 +2,5 @@
 <resources>
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:textColorHint">@color/black</item>
-        <!-- Outros atributos de estilo que você desejar adicionar -->
     </style>
 </resources>

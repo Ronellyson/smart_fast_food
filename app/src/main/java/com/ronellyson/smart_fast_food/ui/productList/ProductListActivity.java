@@ -1,14 +1,11 @@
 package com.ronellyson.smart_fast_food.ui.productList;
 
-
 import static com.ronellyson.smart_fast_food.ui.productDetails.ProductDetailsActivity.EXTRA_FOOD;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,12 +29,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProductListActivity extends AppCompatActivity implements ProductListContract.view, ProductListAdapter.ClickItem{
+public class ProductListActivity extends AppCompatActivity implements ProductListContract.view, ProductListAdapter.ClickItem {
 
     private ProductListAdapter productListAdapter;
     private ProductListPresenter presenter;
 
     private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +47,53 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
         configAdapter();
 
         presenter = new ProductListPresenter(this);
-        presenter.getProductsByCategory(model.getOnCategorySelect().getValue());
+        final Observer<Category> categoryObserver = new Observer<Category>() {
+            @Override
+            public void onChanged(Category category) {
+                presenter.getProductsByCategory(category);
+            }
+        };
 
-        RecyclerView category_recycler_view = findViewById(R.id.category_recycler_view);
+        model.onCategorySelect.observe(this, categoryObserver);
+
+        RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
+        List<Category> buttonList = createCategoryList();
+        CategoryButtonAdapter categoryButtonAdapter = new CategoryButtonAdapter(buttonList, model);
+        categoryRecyclerView.setAdapter(categoryButtonAdapter);
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        searchView = findViewById(R.id.searchView);
+        searchView.setQueryHint("Digite sua busca aqui");
+        EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(Color.BLACK);
+        searchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    searchEditText.setTextColor(Color.BLACK);
+                }
+            }
+        });
+        searchEditText.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
+        removeSearchViewUnderline(searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                presenter.filterProducts(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        initializeData();
+    }
+
+    private List<Category> createCategoryList() {
         Category category1 = new Category(1, "best-foods");
         Category category2 = new Category(2, "breads");
         Category category3 = new Category(3, "burgers");
@@ -64,47 +106,30 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
         Category category10 = new Category(10, "porks");
         Category category11 = new Category(11, "sandwiches");
 
-        List<Category> buttonList = new ArrayList<>(Arrays.asList(category1, category2, category3, category4, category5, category6, category7, category8, category9, category10, category11));
+        return new ArrayList<>(Arrays.asList(
+                category1, category2, category3, category4, category5, category6,
+                category7, category8, category9, category10, category11
+        ));
+    }
 
-        CategoryButtonAdapter categoryButtonAdapter = new CategoryButtonAdapter(buttonList, model);
-        category_recycler_view.setAdapter(categoryButtonAdapter);
-        category_recycler_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-// Create the observer which updates the UI.
-        final Observer<Category> nameObserver = new Observer<Category>() {
+    private void initializeData() {
+        presenter.getProductsByCategory(new Category(0,"best-foods"));
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onChanged(Category category) {
-                Log.d("", category.getName());
-                // Aqui você pode realizar as ações desejadas quando um botão for clicado.
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
-        };
 
-// Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        model.onCategorySelect.observe(this, nameObserver);
-
-
-        searchView = findViewById(R.id.searchView);
-
-        // Obtém o EditText interno do SearchView
-        EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-        // Define a cor do texto como preto
-        searchEditText.setTextColor(Color.BLACK);
-
-        // Configura um listener de foco para redefinir a cor do texto ao perder o foco
-        searchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    searchEditText.setTextColor(Color.BLACK);
-                }
+            public boolean onQueryTextChange(String newText) {
+                presenter.filterProducts(newText);
+                return true;
             }
         });
-
-        // Define um layout personalizado para o EditText para evitar que a cor do texto seja redefinida quando ganha o foco
-        searchEditText.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
-
-        removeSearchViewUnderline(searchView);
-
     }
 
     private void removeSearchViewUnderline(SearchView searchView) {
@@ -117,14 +142,13 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
             e.printStackTrace();
         }
     }
-    public void configAdapter(){
-        RecyclerView product_recycler_view = findViewById(R.id.product_recycler_view);
 
-        RecyclerView.LayoutManager linearLayout = new LinearLayoutManager(this);
+    public void configAdapter() {
+        RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
+        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         productListAdapter = new ProductListAdapter(this);
-
-        product_recycler_view.setLayoutManager(linearLayout);
-        product_recycler_view.setAdapter(productListAdapter);
+        productRecyclerView.setLayoutManager(linearLayoutManager);
+        productRecyclerView.setAdapter(productListAdapter);
     }
 
     @Override
