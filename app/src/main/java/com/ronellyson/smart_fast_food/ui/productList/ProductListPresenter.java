@@ -24,10 +24,13 @@ public class ProductListPresenter implements ProductListContract.presenter{
         this.view = view;
     }
 
-    @Override
-    public void getProductsByCategory(LiveData<Category> categoryLiveData) {
-        Log.d("", categoryLiveData.getValue());
+    public void getProductsByCategory(Category category) {
+        if (category != null) {
+            String categoryName = category.getName();
+            Log.d("", categoryName);
+        }
     }
+
 
     //    public void getProductsByCategory(Category category) {
 //        // Make an API call to fetch products by category

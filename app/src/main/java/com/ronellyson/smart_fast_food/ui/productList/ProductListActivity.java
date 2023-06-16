@@ -29,6 +29,7 @@ import com.ronellyson.smart_fast_food.ui.productDetails.ProductDetailsActivity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductListActivity extends AppCompatActivity implements ProductListContract.view, ProductListAdapter.ClickItem{
@@ -48,17 +49,22 @@ public class ProductListActivity extends AppCompatActivity implements ProductLis
         configAdapter();
 
         presenter = new ProductListPresenter(this);
-        presenter.getProductsByCategory(model.getOnCategorySelect());
+        presenter.getProductsByCategory(model.getOnCategorySelect().getValue());
 
         RecyclerView category_recycler_view = findViewById(R.id.category_recycler_view);
-        List<Category> buttonList = new ArrayList<>();
-        Category category1 = new Category(1, "melhores");
-        Category category2 = new Category(2, "piores");
-        Category category3 = new Category(3, "horriveis");
+        Category category1 = new Category(1, "best-foods");
+        Category category2 = new Category(2, "breads");
+        Category category3 = new Category(3, "burgers");
+        Category category4 = new Category(4, "chocolates");
+        Category category5 = new Category(5, "desserts");
+        Category category6 = new Category(6, "drinks");
+        Category category7 = new Category(7, "fried-chicken");
+        Category category8 = new Category(8, "ice-cream");
+        Category category9 = new Category(9, "pizzas");
+        Category category10 = new Category(10, "porks");
+        Category category11 = new Category(11, "sandwiches");
 
-        buttonList.add(category1);
-        buttonList.add(category2);
-        buttonList.add(category3);
+        List<Category> buttonList = new ArrayList<>(Arrays.asList(category1, category2, category3, category4, category5, category6, category7, category8, category9, category10, category11));
 
         CategoryButtonAdapter categoryButtonAdapter = new CategoryButtonAdapter(buttonList, model);
         category_recycler_view.setAdapter(categoryButtonAdapter);
