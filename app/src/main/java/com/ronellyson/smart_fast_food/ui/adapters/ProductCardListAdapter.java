@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Product;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardListAdapter.ViewHolder> {
@@ -48,22 +49,18 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
         TextView listTitle;
         TextView listDescription;
         TextView listPrice;
-        TextView listRate;
-
         public ViewHolder(View itemView) {
             super(itemView);
             listImg = itemView.findViewById(R.id.image);
             listTitle = itemView.findViewById(R.id.title);
-//            listDescription = itemView.findViewById(R.id.list_description);
-//            listPrice = itemView.findViewById(R.id.list_price);
-//            listRate = itemView.findViewById(R.id.list_rate);
+            listDescription = itemView.findViewById(R.id.description);
+            listPrice = itemView.findViewById(R.id.price);
         }
 
         public void bind(Product product) {
             listTitle.setText(product.getName());
-//            listDescription.setText(product.getDescription());
-//            listPrice.setText(String.valueOf(product.getPrice()));
-//            listRate.setText(String.valueOf(product.getRate()));
+            listDescription.setText(product.getDescription());
+            listPrice.setText("$ " + String.valueOf(product.getPrice().setScale(2, RoundingMode.HALF_UP)));
             Glide.with(itemView.getContext()).load(product.getUrlImage()).into(listImg);
         }
     }
