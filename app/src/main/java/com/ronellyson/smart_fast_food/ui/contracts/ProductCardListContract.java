@@ -1,4 +1,4 @@
-package com.ronellyson.smart_fast_food.ui.productList;
+package com.ronellyson.smart_fast_food.ui.contracts;
 
 import android.widget.ImageView;
 
@@ -7,7 +7,7 @@ import com.ronellyson.smart_fast_food.data.model.Product;
 
 import java.util.List;
 
-public interface ProductListContract {
+public interface ProductCardListContract {
 
     public interface view{
 
