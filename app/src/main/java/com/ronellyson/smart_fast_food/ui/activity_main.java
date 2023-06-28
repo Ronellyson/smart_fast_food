@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ronellyson.smart_fast_food.R;
+import com.ronellyson.smart_fast_food.ui.fragments.FragmentHomePage;
+import com.ronellyson.smart_fast_food.ui.fragments.FragmentProductCard;
 import com.ronellyson.smart_fast_food.ui.fragments.FragmentProductCardList;
 
 public class activity_main extends AppCompatActivity {
@@ -18,7 +20,7 @@ public class activity_main extends AppCompatActivity {
         if (savedInstanceState == null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container_root, FragmentProductCardList.newInstance(),"ProductCardList")
+                    .add(R.id.container_root, FragmentHomePage.newInstance(),"HomePage")
                     .commit();
         }
     }
