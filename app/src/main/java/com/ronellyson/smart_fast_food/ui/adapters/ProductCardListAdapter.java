@@ -51,10 +51,10 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
         TextView listPrice;
         public ViewHolder(View itemView) {
             super(itemView);
-            listImg = itemView.findViewById(R.id.image);
-            listTitle = itemView.findViewById(R.id.title);
-            listDescription = itemView.findViewById(R.id.description);
-            listPrice = itemView.findViewById(R.id.price);
+            listImg = itemView.findViewById(R.id.product_card_image);
+            listTitle = itemView.findViewById(R.id.product_card_title);
+            listDescription = itemView.findViewById(R.id.product_card_description);
+            listPrice = itemView.findViewById(R.id.product_card_price);
         }
 
         public void bind(Product product) {

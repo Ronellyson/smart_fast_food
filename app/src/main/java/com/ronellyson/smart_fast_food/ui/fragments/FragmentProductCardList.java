@@ -1,6 +1,5 @@
 package com.ronellyson.smart_fast_food.ui.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,22 +26,9 @@ public class FragmentProductCardList extends Fragment {
 
     private ProductCardListPresenter presenter;
     private List<Product> products;
-//    private OnProductSelectedListener listener;
-//
     public static FragmentProductCardList newInstance() {
         return new FragmentProductCardList();
     }
-//
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnProductSelectedListener) {
-//            listener = (OnProductSelectedListener) context;
-//        } else {
-//            throw new IllegalArgumentException("Activity must implement OnProductSelectedListener");
-//        }
-//    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
