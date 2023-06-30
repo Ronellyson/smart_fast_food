@@ -1,4 +1,4 @@
-package com.ronellyson.smart_fast_food.ui.fragments;
+package com.ronellyson.smart_fast_food.ui.fragments.components;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

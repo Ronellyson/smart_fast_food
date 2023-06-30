@@ -6,7 +6,7 @@ import com.ronellyson.smart_fast_food.data.model.Product;
 import com.ronellyson.smart_fast_food.data.network.ApiProduct;
 import com.ronellyson.smart_fast_food.data.network.response.ProductResponse;
 import com.ronellyson.smart_fast_food.ui.contracts.ProductCardListContract;
-import com.ronellyson.smart_fast_food.ui.fragments.FragmentProductCardList;
+import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCardList;
 
 import java.util.List;
 
