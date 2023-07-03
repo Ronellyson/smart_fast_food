@@ -1,6 +1,7 @@
 package com.ronellyson.smart_fast_food.data.model;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class Product {
 
@@ -12,7 +13,8 @@ public class Product {
     private String description;
     private int rate;
 
-    public Product(String name, String urlImage, BigDecimal price, String description, int rate) {
+    public Product(String id,String name, String urlImage, BigDecimal price, String description, int rate) {
+        this.id = id;
         this.name = name;
         this.urlImage = urlImage;
         this.price = price;

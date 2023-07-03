@@ -9,6 +9,13 @@
     <color name="bright_green">#FF00FF00</color>
     <color name="colorGainsboro">#ECECEC</color>
     <color name="colorPrimary">#FF6200EE</color>
+
     <color name="normalColorButton">#FF6200EE</color>
     <color name="pressedColorButton">#CC6200EE</color>
+
+    <color name="normalColorAddButton">#FF6200EE</color>
+    <color name="selectedColorAddButton">#FFFFFFFF</color>
+
+    <color name="normalColorButtonText">#FFFFFFFF</color>
+    <color name="selectedColorButtonText">#FF6200EE</color>
 </resources>

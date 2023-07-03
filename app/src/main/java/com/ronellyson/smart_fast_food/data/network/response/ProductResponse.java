@@ -1,7 +1,8 @@
 package com.ronellyson.smart_fast_food.data.network.response;
 
-import com.ronellyson.smart_fast_food.data.model.Product;
 import com.squareup.moshi.Json;
+
+import java.util.UUID;
 
 public class ProductResponse {
     @Json(name = "id")
@@ -23,12 +24,17 @@ public class ProductResponse {
 
 
 
-    public ProductResponse(String name, String image, String description, double price, int rate) {
+    public ProductResponse(String id, String name, String image, String description, double price, int rate) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.description = description;
         this.price = price;
         this.rate = rate;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

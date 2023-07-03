@@ -12,7 +12,7 @@ public class ProductDTO {
         List<Product> foods = new ArrayList<>();
 
         for(ProductResponse response: productResponse){
-            Product food = new Product(response.getName(), response.getImage(), BigDecimal.valueOf(response.getPrice()),
+            Product food = new Product(response.getId(), response.getName(), response.getImage(), BigDecimal.valueOf(response.getPrice()),
                     response.getDescription(), response.getRate());
 
             foods.add(food);

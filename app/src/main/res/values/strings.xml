@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">smart_fast_food</string>
+    <string name="remove_button_text">REMOVER</string>
+    <string name="add_button_text">ADICIONAR</string>
 </resources>

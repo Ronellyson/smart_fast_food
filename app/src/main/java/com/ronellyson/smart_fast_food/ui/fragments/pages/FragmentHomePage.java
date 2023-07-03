@@ -65,7 +65,7 @@ public class FragmentHomePage extends Fragment {
 
                 // Atualiza o estado do botão
                 cartButton.setPressed(newCartButtonClicked);
-                Log.d("CartButton", String.valueOf(cartButton.isPressed()));
+                Log.d("isCartButtonClicked", String.valueOf(cartButton.isPressed()));
 
                 // Obtém a referência à MainActivity
                 MainActivity mainActivity = (MainActivity) requireActivity();

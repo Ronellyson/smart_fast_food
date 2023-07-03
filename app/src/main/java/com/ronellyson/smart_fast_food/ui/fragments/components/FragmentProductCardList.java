@@ -1,9 +1,11 @@
 package com.ronellyson.smart_fast_food.ui.fragments.components;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,9 +28,11 @@ public class FragmentProductCardList extends Fragment {
 
     private ProductCardListPresenter presenter;
     private List<Product> products;
+
     public static FragmentProductCardList newInstance() {
         return new FragmentProductCardList();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +52,9 @@ public class FragmentProductCardList extends Fragment {
         // Initialize the products list before using it in the adapter
         products = new ArrayList<>();
 
-        adapter = new ProductCardListAdapter(products);
+        adapter = new ProductCardListAdapter(products, position -> {
+        }, requireContext());
+
         recyclerView.setAdapter(adapter);
 
         // Create an instance of the presenter
@@ -59,10 +65,10 @@ public class FragmentProductCardList extends Fragment {
         presenter.getProductsByCategory(category);
     }
 
-
     public void setProducts(List<Product> products) {
         this.products = products;
         adapter.updateProducts(products); // Update the products list in the adapter
     }
 }
+
 
