@@ -17,7 +17,7 @@ public interface ProductCardListContract {
     }
 
     public interface presenter {
-        void getProductsByCategory(Category category);
+        void getProductsFiltered(Category category, String searchQuery);
         void destroyView();
     }
 }

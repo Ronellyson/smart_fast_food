@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -81,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = fragmentManager.findFragmentByTag("ProductCartPage");
         if (fragment == null) {
-            fragmentTransaction.add(R.id.container_root, FragmentProductCartPage.newInstance(), "ProductCartPage");
+            FragmentProductCartPage productCartPageFragment = FragmentProductCartPage.newInstance();
+            fragmentTransaction.add(R.id.container_root, productCartPageFragment, "ProductCartPage");
         }
 
         fragmentTransaction.commit();
     }
-
 }

@@ -14,11 +14,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Product;
+import com.ronellyson.smart_fast_food.data.model.ProductCartItem;
 
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.UUID;
 
 public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardListAdapter.ViewHolder> {
     private List<Product> products;
@@ -33,10 +36,10 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
         void onAddButtonClick(int position);
     }
 
-    public ProductCardListAdapter(List<Product> products, OnAddButtonClickListener listener, Context context) {
+    public ProductCardListAdapter(List<Product> products, OnAddButtonClickListener listener, SharedPreferences sharedPreferences) {
         this.products = products;
         this.addButtonClickListener = listener;
-        this.sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        this.sharedPreferences = sharedPreferences;
     }
 
     public void updateProducts(List<Product> products) {
@@ -86,32 +89,38 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
                             addButtonClickListener.onAddButtonClick(adapterPosition);
 
                             Product product = products.get(adapterPosition);
-                            boolean isProductAddedToCart = sharedPreferences.getBoolean(String.valueOf(product.getId()), false);
-                            boolean newProductAddedToCart = !isProductAddedToCart;
+                            boolean isProductAddedToCart = isProductAlreadyAdded(product.getId());
 
                             // Save or remove the product ID in SharedPreferences
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            if (newProductAddedToCart) {
-                                editor.putBoolean(String.valueOf(product.getId()), true);
+                            if (!isProductAddedToCart) {
+                                // Convert Product to ProductCartItem
+                                ProductCartItem productCartItem = new ProductCartItem(UUID.randomUUID().toString(), product, 1, true);
+                                editor.putString(String.valueOf(product.getId()), productCartItemToJson(productCartItem));
                             } else {
                                 editor.remove(String.valueOf(product.getId()));
                             }
                             editor.apply();
 
                             // Update the button color and text based on the product's cart status
-                            updateButtonAppearance(newProductAddedToCart);
+                            updateButtonAppearance(isProductAddedToCart);
 
-                            Log.d("ProductCardListAdapter", "Product ID: " + product.getId() + ", Added to cart: " + newProductAddedToCart);
+                            Log.d("ProductCardListAdapter", "Product ID: " + product.getId() + ", Added to cart: " + !isProductAddedToCart);
                         }
                     }
                 }
             });
-            // Call updateButtonAppearance during initialization
-            updateButtonAppearance(false);
+        }
+
+        private boolean isProductAlreadyAdded(String productId) {
+            return sharedPreferences.contains(productId);
         }
 
         private void updateButtonAppearance(boolean isProductAddedToCart) {
-            if (isProductAddedToCart) {
+            String productId = products.get(getAdapterPosition()).getId();
+            boolean isProductInCartItem = isProductInCartItem(productId);
+
+            if (isProductInCartItem) {
                 addButton.setBackgroundResource(R.color.selectedColorAddButton);
                 addButton.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.selectedColorButtonText));
                 addButton.setOutlineSpotShadowColor(ContextCompat.getColor(itemView.getContext(), R.color.selectedColorButtonText));
@@ -122,11 +131,25 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
                 addButton.setText(R.string.add_button_text);
             }
         }
+
+        private boolean isProductInCartItem(String productId) {
+            String productCartItemJson = sharedPreferences.getString(productId, null);
+            return productCartItemJson != null;
+        }
+
         public void bind(Product product) {
             listTitle.setText(product.getName());
             listDescription.setText(product.getDescription());
-            listPrice.setText("$ " + String.valueOf(product.getPrice().setScale(2, RoundingMode.HALF_UP)));
+            listPrice.setText("R$ " + String.valueOf(product.getPrice().setScale(2, RoundingMode.HALF_UP)));
             Glide.with(itemView.getContext()).load(product.getUrlImage()).into(listImg);
+
+            updateButtonAppearance(isProductAlreadyAdded(product.getId()));
         }
+    }
+
+    // Method to convert ProductCartItem to JSON string
+    private String productCartItemToJson(ProductCartItem productCartItem) {
+        Gson gson = new Gson();
+        return gson.toJson(productCartItem);
     }
 }

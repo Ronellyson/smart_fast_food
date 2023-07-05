@@ -13,6 +13,6 @@ import retrofit2.http.Query;
 
 public interface ProductService {
     @GET("{categoryName}")
-    Call<List<ProductResponse>> getProductsByCategory(@Path("categoryName") String categoryName);
+    Call<List<ProductResponse>> getProductsFiltered(@Path("categoryName") String categoryName);
 }
 

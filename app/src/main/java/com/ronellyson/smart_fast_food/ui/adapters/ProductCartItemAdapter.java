@@ -14,19 +14,26 @@ import com.bumptech.glide.Glide;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.ProductCartItem;
 
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItemAdapter.ViewHolder> {
 
-    private List<ProductCartItem> items;
-
-    public ProductCartItemAdapter() {
-        this.items = new ArrayList<>();
-    }
+    private List<ProductCartItem> productCartItems;
 
     public ProductCartItemAdapter(List<ProductCartItem> items) {
-        this.items = items;
+        this.productCartItems = items;
+    }
+
+    public ProductCartItemAdapter() {
+        this.productCartItems = new ArrayList<>();
+    }
+
+    public void setProductCartItems(List<ProductCartItem> items) {
+        productCartItems.clear();
+        productCartItems.addAll(items);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -38,21 +45,24 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductCartItem item = items.get(position);
-        // Configurar os dados do item nos elementos de visualização (TextViews, ImageViews, etc.) dentro do ViewHolder
-        holder.productCartItemTitle.setText(item.getProductCartItemTitle());
-        holder.productCartItemPrice.setText(item.getProductCartItemPrice());
-        holder.productCartItemQuantity.setText(item.getProductCartItemQuantity().toString());
+        ProductCartItem item = productCartItems.get(position);
 
-        // Carregar a imagem usando Glide
-        Glide.with(holder.itemView.getContext())
-                .load(Uri.parse(item.getProductCartItemImage()))
-                .into(holder.productCartItemImage);
+        if (item.getProduct() != null) {
+            // Configurar os dados do item nos elementos de visualização (TextViews, ImageViews, etc.) dentro do ViewHolder
+            holder.productCartItemTitle.setText(item.getProduct().getName());
+            holder.productCartItemPrice.setText("R$ " + item.getProduct().getPrice().setScale(2, RoundingMode.HALF_UP).toString());
+            holder.productCartItemQuantity.setText(item.getProductCartItemQuantity().toString());
+
+            // Carregar a imagem usando Glide
+            Glide.with(holder.itemView.getContext())
+                    .load(Uri.parse(item.getProduct().getUrlImage()))
+                    .into(holder.productCartItemImage);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return productCartItems.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,32 +1,43 @@
 package com.ronellyson.smart_fast_food.data.model;
 
 public class ProductCartItem {
-    private String productCartItemTitle;
-    private String productCartItemImage;
-    private String productCartItemPrice;
+    private String id;
+    private Product product;
     private Integer productCartItemQuantity;
+    private boolean isProductAddedToCart;
 
-    public ProductCartItem(String productCartItemTitle, String productCartItemImage, String productCartItemPrice, Integer productCartItemQuantity) {
-        this.productCartItemTitle = productCartItemTitle;
-        this.productCartItemImage = productCartItemImage;
-        this.productCartItemPrice = productCartItemPrice;
+    public ProductCartItem(String id, Product product, Integer productCartItemQuantity, boolean isProductAddedToCart) {
+        this.id = id;
+        this.product = product;
         this.productCartItemQuantity = productCartItemQuantity;
+        this.isProductAddedToCart = isProductAddedToCart;
+    }
+    public String getId() {
+        return id;
     }
 
-    public String getProductCartItemTitle() {
-        return productCartItemTitle;
+    public Product getProduct() {
+        return product;
     }
 
-    public String getProductCartItemImage() {
-        return productCartItemImage;
-    }
-
-    public String getProductCartItemPrice() {
-        return productCartItemPrice;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Integer getProductCartItemQuantity() {
         return productCartItemQuantity;
+    }
+
+    public void setProductCartItemQuantity(Integer productCartItemQuantity) {
+        this.productCartItemQuantity = productCartItemQuantity;
+    }
+
+    public boolean isProductAddedToCart() {
+        return isProductAddedToCart;
+    }
+
+    public void setProductAddedToCart(boolean productAddedToCart) {
+        isProductAddedToCart = productAddedToCart;
     }
 }
 

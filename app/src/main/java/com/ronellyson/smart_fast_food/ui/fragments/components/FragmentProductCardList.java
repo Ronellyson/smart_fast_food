@@ -1,5 +1,7 @@
 package com.ronellyson.smart_fast_food.ui.fragments.components;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,8 +28,10 @@ public class FragmentProductCardList extends Fragment {
     private RecyclerView recyclerView;
     private ProductCardListAdapter adapter;
 
+    private SharedPreferences sharedPreferences;
     private ProductCardListPresenter presenter;
     private List<Product> products;
+    private String currentSearchQuery;
 
     public static FragmentProductCardList newInstance() {
         return new FragmentProductCardList();
@@ -52,8 +56,13 @@ public class FragmentProductCardList extends Fragment {
         // Initialize the products list before using it in the adapter
         products = new ArrayList<>();
 
+        // Initialize the shared preferences
+        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
         adapter = new ProductCardListAdapter(products, position -> {
-        }, requireContext());
+            // Handle add button click
+            // This is an empty listener implementation as per your requirement
+        }, sharedPreferences);
 
         recyclerView.setAdapter(adapter);
 
@@ -62,7 +71,34 @@ public class FragmentProductCardList extends Fragment {
 
         // Call the method to fetch products by category
         Category category = new Category(0, "best-foods"); // Replace with your actual category name
-        presenter.getProductsByCategory(category);
+        presenter.getProductsFiltered(category, getSearchQuery());
+
+        // Add a listener to the shared preferences to detect changes in searchQuery
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Unregister the shared preferences listener when the view is destroyed
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    // Listener to handle changes in searchQuery
+    private SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> {
+        if (key.equals("searchQuery")) {
+            String newSearchQuery = sharedPreferences.getString("searchQuery", "");
+            if (!newSearchQuery.equals(currentSearchQuery)) {
+                currentSearchQuery = newSearchQuery;
+                Category category = new Category(0, "best-foods"); // Replace with your actual category name
+                presenter.getProductsFiltered(category, currentSearchQuery);
+            }
+        }
+    };
+
+    private String getSearchQuery() {
+        // Retrieve the searchQuery from shared preferences
+        return sharedPreferences.getString("searchQuery", "");
     }
 
     public void setProducts(List<Product> products) {
@@ -70,5 +106,3 @@ public class FragmentProductCardList extends Fragment {
         adapter.updateProducts(products); // Update the products list in the adapter
     }
 }
-
-

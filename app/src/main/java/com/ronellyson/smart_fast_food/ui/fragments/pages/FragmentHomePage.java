@@ -1,5 +1,6 @@
 package com.ronellyson.smart_fast_food.ui.fragments.pages;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,9 +36,33 @@ public class FragmentHomePage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_page, container, false);
-
         // Inicializa o SharedPreferences
-        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, 0);
+        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        // Obtém a referência à SearchView
+        SearchView searchBar = rootView.findViewById(R.id.home_page_search_bar);
+
+        // Define o listener de texto alterado para a barra de busca
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Salva o conteúdo da barra de busca no SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("searchQuery", query);
+                editor.apply();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Salva o conteúdo da barra de busca no SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("searchQuery", newText);
+                editor.apply();
+                return false;
+            }
+        });
+
 
         // Obtém o estado do botão salvo no SharedPreferences
         boolean isCartButtonClicked = sharedPreferences.getBoolean(CART_BUTTON_CLICKED_KEY, false);

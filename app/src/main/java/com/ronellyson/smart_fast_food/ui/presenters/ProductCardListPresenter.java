@@ -1,5 +1,7 @@
 package com.ronellyson.smart_fast_food.ui.presenters;
 
+import android.util.Log;
+
 import com.ronellyson.smart_fast_food.data.dto.ProductDTO;
 import com.ronellyson.smart_fast_food.data.model.Category;
 import com.ronellyson.smart_fast_food.data.model.Product;
@@ -8,6 +10,7 @@ import com.ronellyson.smart_fast_food.data.network.response.ProductResponse;
 import com.ronellyson.smart_fast_food.ui.contracts.ProductCardListContract;
 import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCardList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,15 +24,27 @@ public class ProductCardListPresenter implements ProductCardListContract.present
         this.view = view;
     }
 
-    @Override
-    public void getProductsByCategory(Category category) {
-        ApiProduct.getINSTANCE().getProductsByCategory(category.getName())
+    public void getProductsFiltered(Category category, String searchQuery) {
+        ApiProduct.getINSTANCE().getProductsFiltered(category.getName())
                 .enqueue(new Callback<List<ProductResponse>>() {
                     @Override
                     public void onResponse(Call<List<ProductResponse>> call, Response<List<ProductResponse>> response) {
                         if (response.isSuccessful()) {
                             List<Product> products = ProductDTO.convertProductResponseForProduct(response.body());
-                            view.setProducts(products);
+                            List<Product> filteredProducts = new ArrayList<>();
+
+                            for (Product product : products) {
+                                String productName = product.getName();
+                                if (productName != null && searchQuery != null && productName.toLowerCase().contains(searchQuery.toLowerCase())) {
+                                    filteredProducts.add(product);
+                                }
+                            }
+
+                            if (!filteredProducts.isEmpty() || !searchQuery.isEmpty()){
+                                view.setProducts(filteredProducts);
+                            } else {
+                                view.setProducts(products);
+                            }
                         }
                     }
 
