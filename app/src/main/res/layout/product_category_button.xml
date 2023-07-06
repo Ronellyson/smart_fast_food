@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:text="Categoria"
+        android:id="@+id/categoryButton"
+        style="@style/TextAppearance.AppCompat.Button"
+        android:background="@color/normalColorButton"
+        android:textColor="@color/normalColorButtonText"
+        android:outlineSpotShadowColor="@color/normalColorButton"
+        android:layout_margin="5dp"
+        android:clickable="true"/>
+
+</LinearLayout>

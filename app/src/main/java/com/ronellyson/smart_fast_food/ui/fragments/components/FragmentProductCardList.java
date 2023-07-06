@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ronellyson.smart_fast_food.R;
-import com.ronellyson.smart_fast_food.data.model.Category;
 import com.ronellyson.smart_fast_food.data.model.Product;
 import com.ronellyson.smart_fast_food.ui.adapters.ProductCardListAdapter;
 import com.ronellyson.smart_fast_food.ui.presenters.ProductCardListPresenter;
@@ -24,7 +22,7 @@ import com.ronellyson.smart_fast_food.ui.presenters.ProductCardListPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentProductCardList extends Fragment {
+public class FragmentProductCardList extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     private RecyclerView recyclerView;
     private ProductCardListAdapter adapter;
 
@@ -32,6 +30,8 @@ public class FragmentProductCardList extends Fragment {
     private ProductCardListPresenter presenter;
     private List<Product> products;
     private String currentSearchQuery;
+
+    private String currentCategoryName;
 
     public static FragmentProductCardList newInstance() {
         return new FragmentProductCardList();
@@ -70,39 +70,61 @@ public class FragmentProductCardList extends Fragment {
         presenter = new ProductCardListPresenter(this);
 
         // Call the method to fetch products by category
-        Category category = new Category(0, "best-foods"); // Replace with your actual category name
-        presenter.getProductsFiltered(category, getSearchQuery());
-
-        // Add a listener to the shared preferences to detect changes in searchQuery
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        String categoryName = getCategoryName();
+        if (categoryName.isEmpty()) {
+            categoryName = "best-foods"; // Valor padrão quando vazio
+        }
+        presenter.getProductsFiltered(categoryName, getSearchQuery());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Unregister the shared preferences listener when the view is destroyed
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    // Listener to handle changes in searchQuery
-    private SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> {
-        if (key.equals("searchQuery")) {
-            String newSearchQuery = sharedPreferences.getString("searchQuery", "");
-            if (!newSearchQuery.equals(currentSearchQuery)) {
+    // Listener to handle changes in searchQuery and productCategoryButtonSelected
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register the listener for changes in SharedPreferences
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Unregister the listener for changes in SharedPreferences
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("searchQuery") || key.equals(FragmentProductCategoryButtonList.getProductCategoryButtonSelectedKey())) {
+            String newSearchQuery = getSearchQuery();
+            String newCategoryName = getCategoryName();
+            if (!newSearchQuery.equals(currentSearchQuery) || !newSearchQuery.equals(currentCategoryName)) {
                 currentSearchQuery = newSearchQuery;
-                Category category = new Category(0, "best-foods"); // Replace with your actual category name
-                presenter.getProductsFiltered(category, currentSearchQuery);
+                currentCategoryName = newCategoryName;
+                if (currentCategoryName.isEmpty()) {
+                    currentCategoryName = "best-foods";
+                }
+                Log.d("getCategoryName", getCategoryName());
+                presenter.getProductsFiltered(currentCategoryName, currentSearchQuery);
             }
         }
-    };
+    }
 
     private String getSearchQuery() {
         // Retrieve the searchQuery from shared preferences
         return sharedPreferences.getString("searchQuery", "");
     }
 
+    private String getCategoryName() {
+        // Retrieve the categoryName from shared preferences
+        return sharedPreferences.getString(FragmentProductCategoryButtonList.getProductCategoryButtonSelectedKey(), "");
+    }
+
     public void setProducts(List<Product> products) {
-        this.products = products;
         adapter.updateProducts(products); // Update the products list in the adapter
     }
 }

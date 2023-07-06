@@ -48,6 +48,13 @@
 
     <FrameLayout
         android:layout_below="@+id/home_page_search_bar"
+        android:id="@+id/product_category_button_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+
+    <FrameLayout
+        android:layout_below="@+id/product_category_button_list_container"
         android:id="@+id/product_card_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.ui.MainActivity;
 import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCardList;
+import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCategoryButtonList;
 
 public class FragmentHomePage extends Fragment {
 
@@ -107,15 +108,25 @@ public class FragmentHomePage extends Fragment {
         // Cria uma instância do fragmento que você deseja exibir
         FragmentProductCardList fragmentProductCardList = FragmentProductCardList.newInstance();
 
+        // Cria uma instância do fragmento FragmentProductCategoryButtonList
+        FragmentProductCategoryButtonList fragmentProductCategoryButtonList = FragmentProductCategoryButtonList.newInstance();
+
         // Inicia a transação do fragmento
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Adiciona o fragmento ao container do fragmento principal
         fragmentTransaction.add(R.id.product_card_list_container, fragmentProductCardList);
-
+        fragmentTransaction.add(R.id.product_category_button_list_container, fragmentProductCategoryButtonList);
         // Confirma a transação
         fragmentTransaction.commit();
 
         return rootView;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("searchQuery");
+        editor.apply();
     }
 }

@@ -24,8 +24,8 @@ public class ProductCardListPresenter implements ProductCardListContract.present
         this.view = view;
     }
 
-    public void getProductsFiltered(Category category, String searchQuery) {
-        ApiProduct.getINSTANCE().getProductsFiltered(category.getName())
+    public void getProductsFiltered(String categoryName, String searchQuery) {
+        ApiProduct.getINSTANCE().getProductsFiltered(categoryName)
                 .enqueue(new Callback<List<ProductResponse>>() {
                     @Override
                     public void onResponse(Call<List<ProductResponse>> call, Response<List<ProductResponse>> response) {

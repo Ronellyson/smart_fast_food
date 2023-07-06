@@ -6,6 +6,7 @@ import com.ronellyson.smart_fast_food.data.model.Category;
 import com.ronellyson.smart_fast_food.data.model.Product;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProductCardListContract {
 
@@ -17,7 +18,7 @@ public interface ProductCardListContract {
     }
 
     public interface presenter {
-        void getProductsFiltered(Category category, String searchQuery);
+        void getProductsFiltered(String categoryName, String searchQuery);
         void destroyView();
     }
 }
