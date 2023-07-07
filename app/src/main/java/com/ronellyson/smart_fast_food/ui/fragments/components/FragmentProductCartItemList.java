@@ -46,7 +46,7 @@ public class FragmentProductCartItemList extends Fragment implements SharedPrefe
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         // Create the adapter
-        adapter = new ProductCartItemAdapter();
+        adapter = new ProductCartItemAdapter(getProductCartItems(), sharedPreferences);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -57,8 +57,6 @@ public class FragmentProductCartItemList extends Fragment implements SharedPrefe
         super.onResume();
         // Register the shared preference change listener
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        // Update the product cart items
-        updateProductCartItems();
     }
 
     @Override
@@ -73,13 +71,8 @@ public class FragmentProductCartItemList extends Fragment implements SharedPrefe
         // Handle the shared preference change event
         if (key.equals("MyPrefs")) {
             // Update the product cart items
-            updateProductCartItems();
+            adapter.setProductCartItems(getProductCartItems());
         }
-    }
-
-    private void updateProductCartItems() {
-        List<ProductCartItem> productCartItems = getProductCartItems();
-        adapter.setProductCartItems(productCartItems);
     }
 
     private List<ProductCartItem> getProductCartItems() {

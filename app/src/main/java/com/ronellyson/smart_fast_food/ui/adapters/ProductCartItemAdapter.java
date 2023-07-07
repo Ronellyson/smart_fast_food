@@ -1,5 +1,6 @@
 package com.ronellyson.smart_fast_food.ui.adapters;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,11 @@ import java.util.List;
 public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItemAdapter.ViewHolder> {
 
     private List<ProductCartItem> productCartItems;
+    private SharedPreferences sharedPreferences;
 
-    public ProductCartItemAdapter(List<ProductCartItem> items) {
+    public ProductCartItemAdapter(List<ProductCartItem> items, SharedPreferences sharedPreferences) {
         this.productCartItems = items;
+        this.sharedPreferences = sharedPreferences;
     }
 
     public ProductCartItemAdapter() {
@@ -51,8 +54,6 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
             // Configurar os dados do item nos elementos de visualização (TextViews, ImageViews, etc.) dentro do ViewHolder
             holder.productCartItemTitle.setText(item.getProduct().getName());
             holder.productCartItemPrice.setText("R$ " + item.getProduct().getPrice().setScale(2, RoundingMode.HALF_UP).toString());
-            holder.productCartItemQuantity.setText(item.getProductCartItemQuantity().toString());
-
             // Carregar a imagem usando Glide
             Glide.with(holder.itemView.getContext())
                     .load(Uri.parse(item.getProduct().getUrlImage()))
@@ -70,14 +71,12 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
         ImageView productCartItemImage;
         TextView productCartItemTitle;
         TextView productCartItemPrice;
-        TextView productCartItemQuantity;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productCartItemImage = itemView.findViewById(R.id.product_cart_item_image);
             productCartItemTitle = itemView.findViewById(R.id.product_cart_item_title);
             productCartItemPrice = itemView.findViewById(R.id.product_cart_item_price);
-            productCartItemQuantity = itemView.findViewById(R.id.product_cart_item_quantity);
         }
     }
 }
