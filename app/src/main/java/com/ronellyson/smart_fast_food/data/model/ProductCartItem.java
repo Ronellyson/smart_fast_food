@@ -6,12 +6,15 @@ public class ProductCartItem {
     private Integer productCartItemQuantity;
     private boolean isProductAddedToCart;
 
+    public ProductCartItem() {}
+
     public ProductCartItem(String id, Product product, Integer productCartItemQuantity, boolean isProductAddedToCart) {
         this.id = id;
         this.product = product;
         this.productCartItemQuantity = productCartItemQuantity;
         this.isProductAddedToCart = isProductAddedToCart;
     }
+
     public String getId() {
         return id;
     }

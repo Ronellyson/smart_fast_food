@@ -1,6 +1,5 @@
 package com.ronellyson.smart_fast_food.ui.adapters;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Product;
 import com.ronellyson.smart_fast_food.data.model.ProductCartItem;
 
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,8 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
     private List<Product> products;
     private OnAddButtonClickListener addButtonClickListener;
     private SharedPreferences sharedPreferences;
+
+    private List<ProductCartItem> productCartItems = new ArrayList<>();
 
     public void setOnAddButtonClickListener(OnAddButtonClickListener listener) {
         this.addButtonClickListener = listener;
@@ -93,12 +96,18 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
 
                             // Save or remove the product ID in SharedPreferences
                             SharedPreferences.Editor editor = sharedPreferences.edit();
+                            Gson gson = new Gson();
                             if (!isProductAddedToCart) {
                                 // Convert Product to ProductCartItem
                                 ProductCartItem productCartItem = new ProductCartItem(UUID.randomUUID().toString(), product, 1, true);
-                                editor.putString(String.valueOf(product.getId()), productCartItemToJson(productCartItem));
+                                productCartItems.add(productCartItem);
+                                String productCartItemsJson = gson.toJson(productCartItems);
+                                editor.putString("productCartItems", productCartItemsJson);
                             } else {
-                                editor.remove(String.valueOf(product.getId()));
+                                Log.d("onClick", product.getName());
+                                removeProductCartItemFromList(product.getId());
+                                String productCartItemsJson = gson.toJson(productCartItems);
+                                editor.putString("productCartItems", productCartItemsJson);
                             }
                             editor.apply();
 
@@ -113,7 +122,35 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
         }
 
         private boolean isProductAlreadyAdded(String productId) {
-            return sharedPreferences.contains(productId);
+            String productCartItemsJson = sharedPreferences.getString("productCartItems", null);
+            if (productCartItemsJson != null) {
+                Gson gson = new Gson();
+                List<ProductCartItem> productCartItems = gson.fromJson(productCartItemsJson, new TypeToken<List<ProductCartItem>>() {}.getType());
+                for (ProductCartItem item : productCartItems) {
+                    if (item.getProduct().getId().equals(productId)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private void removeProductCartItemFromList(String productId) {
+            String productCartItemsJson = sharedPreferences.getString("productCartItems", null);
+            if (productCartItemsJson != null) {
+                Gson gson = new Gson();
+                productCartItems = gson.fromJson(productCartItemsJson, new TypeToken<List<ProductCartItem>>() {}.getType());
+                for (ProductCartItem item : productCartItems) {
+                    if (item.getProduct().getId().equals(productId)) {
+                        productCartItems.remove(item);
+                        break;
+                    }
+                }
+                productCartItemsJson = gson.toJson(productCartItems);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("productCartItems", productCartItemsJson);
+                editor.apply();
+            }
         }
 
         private void updateButtonAppearance(boolean isProductAddedToCart) {
@@ -133,8 +170,17 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
         }
 
         private boolean isProductInCartItem(String productId) {
-            String productCartItemJson = sharedPreferences.getString(productId, null);
-            return productCartItemJson != null;
+            String productCartItemsJson = sharedPreferences.getString("productCartItems", null);
+            if (productCartItemsJson != null) {
+                Gson gson = new Gson();
+                productCartItems = gson.fromJson(productCartItemsJson, new TypeToken<List<ProductCartItem>>() {}.getType());
+                for (ProductCartItem item : productCartItems) {
+                    if (item.getProduct().getId().equals(productId)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void bind(Product product) {
@@ -145,11 +191,5 @@ public class ProductCardListAdapter extends RecyclerView.Adapter<ProductCardList
 
             updateButtonAppearance(isProductAlreadyAdded(product.getId()));
         }
-    }
-
-    // Method to convert ProductCartItem to JSON string
-    private String productCartItemToJson(ProductCartItem productCartItem) {
-        Gson gson = new Gson();
-        return gson.toJson(productCartItem);
     }
 }

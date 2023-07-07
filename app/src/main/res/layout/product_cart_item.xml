@@ -89,11 +89,51 @@
                         android:text="Quantidade:"
                         style="@style/TextAppearance.AppCompat.Title" />
 
-                    <FrameLayout
-                        android:id="@+id/product_cart_item_quantity_selector_container"
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/quantity_selector_widget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                    />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/minus_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:text="-"
+                            android:textSize="30dp"
+                            style="@style/TextAppearance.AppCompat.Button"
+                            android:background="@color/normalColorButton"
+                            android:textColor="@color/normalColorButtonText"
+                            android:outlineSpotShadowColor="@color/normalColorButton"
+                            android:clickable="true"/>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/whitesmoke">
+
+                            <TextView
+                                android:id="@+id/product_cart_item_quantity_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                style="@style/TextAppearance.AppCompat.Body2"
+                                android:textSize="30dp" />
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/plus_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:text="+"
+                            android:textSize="30dp"
+                            style="@style/TextAppearance.AppCompat.Button"
+                            android:background="@color/normalColorButton"
+                            android:textColor="@color/normalColorButtonText"
+                            android:outlineSpotShadowColor="@color/normalColorButton"
+                            android:clickable="true"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
