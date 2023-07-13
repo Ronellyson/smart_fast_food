@@ -58,13 +58,15 @@
         />
 
     <Button
+        android:id="@+id/product_cart_page_continue_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirmar"
+        android:text="Continuar"
         android:layout_margin="10dp"
         style="@style/TextAppearance.AppCompat.Button"
         android:textColor="@color/white"
         android:background="@drawable/button_background"
+        android:clickable="false"
         />
 
 </LinearLayout>

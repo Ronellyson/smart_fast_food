@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ public class FragmentProductCartItemList extends Fragment {
     private ProductCartItemAdapter adapter;
 
     private SharedPreferences sharedPreferences;
+    private Button continueButton;
 
     public static FragmentProductCartItemList newInstance() {
         return new FragmentProductCartItemList();
@@ -37,11 +39,17 @@ public class FragmentProductCartItemList extends Fragment {
         // Get the shared preferences
         sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
+        // Get the continue button reference
+        continueButton = getActivity().findViewById(R.id.product_cart_page_continue_button);
+
         // Create the adapter
-        adapter = new ProductCartItemAdapter(sharedPreferences);
+        adapter = new ProductCartItemAdapter(sharedPreferences, continueButton);
         recyclerView.setAdapter(adapter);
 
         return view;
     }
-}
 
+    public ProductCartItemAdapter getAdapter() {
+        return adapter;
+    }
+}

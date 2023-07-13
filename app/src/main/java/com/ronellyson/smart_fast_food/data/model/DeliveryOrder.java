@@ -8,12 +8,15 @@ import java.util.List;
 public class DeliveryOrder {
     private Date orderDateTime;
     private Status orderStatus;
-    private List<ItemProduct> itemProducts;
 
-    public DeliveryOrder(Date orderDateTime, Status orderStatus, List<ItemProduct> itemProducts) {
+    private Address address;
+    private List<ProductCartItem> productCartItems;
+
+    public DeliveryOrder(Date orderDateTime, Status orderStatus, Address address, List<ProductCartItem> productCartItems) {
         this.orderDateTime = orderDateTime;
         this.orderStatus = orderStatus;
-        this.itemProducts = itemProducts;
+        this.address = address;
+        this.productCartItems = productCartItems;
     }
 
     public Date getOrderDateTime() {
@@ -32,11 +35,19 @@ public class DeliveryOrder {
         this.orderStatus = orderStatus;
     }
 
-    public List<ItemProduct> getProducts() {
-        return itemProducts;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setProducts(List<ItemProduct> products) {
-        this.itemProducts = products;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<ProductCartItem> getProductCartItems() {
+        return productCartItems;
+    }
+
+    public void setProductCartItems(List<ProductCartItem> productCartItems) {
+        this.productCartItems = productCartItems;
     }
 }

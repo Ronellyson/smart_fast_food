@@ -24,8 +24,6 @@ import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCat
 public class FragmentHomePage extends Fragment {
 
     private static final String PREFS_NAME = "MyPrefs";
-    private static final String CART_BUTTON_CLICKED_KEY = "cartButtonClicked";
-
     private SharedPreferences sharedPreferences;
     private ImageButton cartButton;
 
@@ -64,41 +62,16 @@ public class FragmentHomePage extends Fragment {
             }
         });
 
+        cartButton = rootView.findViewById(R.id.home_page_cart_button); // <-- Adicione esta linha para atribuir a referência correta ao cartButton
 
-        // Obtém o estado do botão salvo no SharedPreferences
-        boolean isCartButtonClicked = sharedPreferences.getBoolean(CART_BUTTON_CLICKED_KEY, false);
-
-        // Obtém o botão do layout
-        cartButton = rootView.findViewById(R.id.home_page_cart_button);
-
-        // Define o estado do botão com base no valor recuperado
-        cartButton.setPressed(isCartButtonClicked);
-
-        // Define o listener de clique para o botão
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtém o estado do botão salvo no SharedPreferences, usando false como valor padrão
-                boolean isCartButtonClicked = sharedPreferences.getBoolean(CART_BUTTON_CLICKED_KEY, false);
-
-
-                // Inverte o estado do botão
-                boolean newCartButtonClicked = !isCartButtonClicked;
-
-                // Salva o novo estado do botão no SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(CART_BUTTON_CLICKED_KEY, newCartButtonClicked);
-                editor.apply();
-
-                // Atualiza o estado do botão
-                cartButton.setPressed(newCartButtonClicked);
-                Log.d("isCartButtonClicked", String.valueOf(cartButton.isPressed()));
-
                 // Obtém a referência à MainActivity
                 MainActivity mainActivity = (MainActivity) requireActivity();
 
                 // Notifica a MainActivity sobre a atualização do estado do botão
-                mainActivity.updateCartButtonState(newCartButtonClicked);
+                mainActivity.onCartButtonPressed();
             }
         });
 

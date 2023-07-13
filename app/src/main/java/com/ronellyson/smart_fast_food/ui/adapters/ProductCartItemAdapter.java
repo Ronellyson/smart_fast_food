@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +23,6 @@ import com.ronellyson.smart_fast_food.data.model.ProductCartItem;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItemAdapter.ViewHolder> {
 
@@ -30,9 +30,14 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
     private SharedPreferences sharedPreferences;
     private Gson gson = new Gson();
 
-    public ProductCartItemAdapter(SharedPreferences sharedPreferences) {
+    private Button continueButton;
+    private boolean continueButtonClicked = false;
+
+    public ProductCartItemAdapter(SharedPreferences sharedPreferences, Button continueButton) {
         this.sharedPreferences = sharedPreferences;
+        this.continueButton = continueButton;
         retrieveProductCartItems();
+        updateContinueButtonState();
     }
 
     private void retrieveProductCartItems() {
@@ -57,16 +62,16 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
         ProductCartItem item = productCartItems.get(position);
 
         if (item.getProduct() != null) {
-            // Configurar os dados do item nos elementos de visualização (TextViews, ImageViews, etc.) dentro do ViewHolder
+            // Set the item data to the views inside the ViewHolder
             holder.productCartItemTitle.setText(item.getProduct().getName());
             holder.productCartItemPrice.setText("R$ " + item.getProduct().getPrice().setScale(2, RoundingMode.HALF_UP).toString());
             holder.productCartItemQuantityText.setText(String.valueOf(item.getProductCartItemQuantity()));
-            // Carregar a imagem usando Glide
+            // Load the image using Glide
             Glide.with(holder.itemView.getContext())
                     .load(Uri.parse(item.getProduct().getUrlImage()))
                     .into(holder.productCartItemImage);
 
-            // Definir o clique do botão de subtração
+            // Set the click listener for the minus button
             holder.minusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -74,11 +79,19 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
                 }
             });
 
-            // Definir o clique do botão de adição
+            // Set the click listener for the plus button
             holder.plusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     increaseQuantity(item);
+                }
+            });
+
+            // Set the click listener for the delete button
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    removeProductCartItemFromList(item.getProduct().getId());
                 }
             });
         }
@@ -100,11 +113,47 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
         notifyDataSetChanged();
     }
 
+    private void removeProductCartItemFromList(String productId) {
+        for (int i = 0; i < productCartItems.size(); i++) {
+            ProductCartItem item = productCartItems.get(i);
+            if (item.getProduct().getId().equals(productId)) {
+                productCartItems.remove(i);
+                updateProductCartItemsInSharedPreferences();
+                notifyDataSetChanged();
+                updateContinueButtonState();
+                break;
+            }
+        }
+    }
+
     private void updateQuantityInSharedPreferences(ProductCartItem item) {
         String productCartItemsJson = gson.toJson(productCartItems);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("productCartItems", productCartItemsJson);
         editor.apply();
+    }
+
+    private void updateProductCartItemsInSharedPreferences() {
+        String productCartItemsJson = gson.toJson(productCartItems);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("productCartItems", productCartItemsJson);
+        editor.apply();
+    }
+
+    private void updateContinueButtonState() {
+        if (productCartItems.isEmpty()) {
+            continueButton.setEnabled(false);
+        } else {
+            continueButton.setEnabled(true);
+        }
+    }
+
+    public void setContinueButtonClicked(boolean clicked) {
+        continueButtonClicked = clicked;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("continueButtonClicked", continueButtonClicked);
+        editor.apply();
+        Log.d("setContinueButtonClicked", sharedPreferences.getAll().toString());
     }
 
     @Override
@@ -120,6 +169,7 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
         Button minusButton;
         Button plusButton;
         TextView productCartItemQuantityText;
+        ImageButton deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,6 +179,7 @@ public class ProductCartItemAdapter extends RecyclerView.Adapter<ProductCartItem
             minusButton = itemView.findViewById(R.id.minus_button);
             plusButton = itemView.findViewById(R.id.plus_button);
             productCartItemQuantityText = itemView.findViewById(R.id.product_cart_item_quantity_text);
+            deleteButton = itemView.findViewById(R.id.product_cart_item_delete_button);
         }
     }
 }
