@@ -62,7 +62,18 @@ public class FragmentHomePage extends Fragment {
             }
         });
 
-        cartButton = rootView.findViewById(R.id.home_page_cart_button); // <-- Adicione esta linha para atribuir a referência correta ao cartButton
+        ImageButton btnOpenDrawer = rootView.findViewById(R.id.btn_open_drawer);
+        btnOpenDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Define o estado do Navigation Drawer como aberto no SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isNavigationDrawerOpen", true);
+                editor.apply();
+            }
+        });
+
+        cartButton = rootView.findViewById(R.id.home_page_cart_button);
 
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +82,7 @@ public class FragmentHomePage extends Fragment {
                 MainActivity mainActivity = (MainActivity) requireActivity();
 
                 // Notifica a MainActivity sobre a atualização do estado do botão
-                mainActivity.onCartButtonPressed();
+                mainActivity.showProductCartPageFragment();
             }
         });
 
@@ -90,16 +101,19 @@ public class FragmentHomePage extends Fragment {
         // Adiciona o fragmento ao container do fragmento principal
         fragmentTransaction.add(R.id.product_card_list_container, fragmentProductCardList);
         fragmentTransaction.add(R.id.product_category_button_list_container, fragmentProductCategoryButtonList);
+
         // Confirma a transação
         fragmentTransaction.commit();
 
         return rootView;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("searchQuery");
+        editor.remove("isNavigationDrawerOpen");
         editor.apply();
     }
 }

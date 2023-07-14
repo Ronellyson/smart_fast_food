@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ronellyson.smart_fast_food.R;
+import com.ronellyson.smart_fast_food.ui.fragments.pages.FragmentDynamicPage;
 import com.ronellyson.smart_fast_food.ui.fragments.pages.FragmentHomePage;
 import com.ronellyson.smart_fast_food.ui.fragments.pages.FragmentOrderDetailsPage;
 import com.ronellyson.smart_fast_food.ui.fragments.pages.FragmentProductCartPage;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PREFS_NAME = "MyPrefs";
     private static final String CONTINUE_BUTTON_CLICKED_KEY = "continueButtonClicked";
-
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -32,44 +32,20 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(CONTINUE_BUTTON_CLICKED_KEY, false);
         editor.apply();
 
-        showHomePageFragment();
+        showDynamicPageFragment();
     }
 
-    public void showHomePageFragment() {
+    public void showDynamicPageFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FragmentProductCartPage productCartPageFragment = (FragmentProductCartPage) fragmentManager.findFragmentByTag("ProductCartPage");
-        if (productCartPageFragment != null) {
-            fragmentTransaction.remove(productCartPageFragment);
-        }
-
-        Fragment fragment = fragmentManager.findFragmentByTag("HomePage");
+        Fragment fragment = fragmentManager.findFragmentByTag("FragmentDynamicPage");
         if (fragment == null) {
-            fragmentTransaction.add(R.id.container_root, FragmentHomePage.newInstance(), "HomePage");
+            fragment = FragmentDynamicPage.newInstance();
+            fragmentTransaction.add(R.id.container_root, fragment, "FragmentDynamicPage");
         }
 
         fragmentTransaction.commit();
-    }
-
-    public void onCartButtonPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Verificar se a página do carrinho de compras já está sendo exibida
-        Fragment fragmentProductCart = fragmentManager.findFragmentByTag("ProductCartPage");
-        if (fragmentProductCart != null && fragmentProductCart.isVisible()) {
-            // A página do carrinho de compras já está sendo exibida, não é necessário fazer nada
-            return;
-        }
-
-        // Remover fragmento da página de detalhes do pedido, se estiver visível
-        Fragment fragmentOrderDetails = fragmentManager.findFragmentByTag("OrderDetailsPage");
-        if (fragmentOrderDetails != null && fragmentOrderDetails.isVisible()) {
-            fragmentManager.beginTransaction().remove(fragmentOrderDetails).commit();
-        }
-
-        // Exibir a página do carrinho de compras
-        showProductCartPageFragment();
     }
 
 
@@ -77,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FragmentHomePage homePageFragment = (FragmentHomePage) fragmentManager.findFragmentByTag("HomePage");
-        if (homePageFragment != null) {
-            fragmentTransaction.remove(homePageFragment);
+        FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) fragmentManager.findFragmentByTag("FragmentDynamicPage");
+        if (fragmentDynamicPage != null) {
+            fragmentTransaction.remove(fragmentDynamicPage);
         }
 
         Fragment fragment = fragmentManager.findFragmentByTag("ProductCartPage");
@@ -123,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Exibir a página inicial
-        showHomePageFragment();
+        showDynamicPageFragment();
     }
 
     public void onBackToCartPagePressed() {
