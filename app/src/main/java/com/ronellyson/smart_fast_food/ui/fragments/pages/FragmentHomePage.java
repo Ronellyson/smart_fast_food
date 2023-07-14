@@ -24,19 +24,20 @@ import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCat
 public class FragmentHomePage extends Fragment {
 
     private static final String PREFS_NAME = "MyPrefs";
-    private SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences;
+
     private ImageButton cartButton;
 
-    public static FragmentHomePage newInstance() {
-        return new FragmentHomePage();
+    public static FragmentHomePage newInstance(SharedPreferences sharedPreferences) {
+        FragmentHomePage fragment = new FragmentHomePage();
+        fragment.sharedPreferences = sharedPreferences;
+        return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_page, container, false);
-        // Inicializa o SharedPreferences
-        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Obtém a referência à SearchView
         SearchView searchBar = rootView.findViewById(R.id.home_page_search_bar);
@@ -113,7 +114,6 @@ public class FragmentHomePage extends Fragment {
         super.onDestroy();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("searchQuery");
-        editor.remove("isNavigationDrawerOpen");
         editor.apply();
     }
 }

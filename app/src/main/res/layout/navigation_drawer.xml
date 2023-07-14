@@ -39,7 +39,7 @@
                 android:id="@+id/home_page_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tela inicial"
+                android:text="@string/home_page_button"
                 style="@style/TextAppearance.AppCompat.Button"
                 android:background="@drawable/button_background"
                 android:textColor="@color/normalColorButtonText"/>
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/home_page_button"
-                android:text="Histórico de Pedidos"
+                android:text="@string/order_history_button"
                 style="@style/TextAppearance.AppCompat.Button"
                 android:background="@drawable/button_background"
                 android:textColor="@color/normalColorButtonText"/>
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_history_button"
-                android:text="Gerenciar Endereços"
+                android:text="@string/address_management_button"
                 style="@style/TextAppearance.AppCompat.Button"
                 android:background="@drawable/button_background"
                 android:textColor="@color/normalColorButtonText"/>
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/address_management_button"
-                android:text="Gerenciar Meios de Pagamento"
+                android:text="@string/payment_management_button"
                 style="@style/TextAppearance.AppCompat.Button"
                 android:background="@drawable/button_background"
                 android:textColor="@color/normalColorButtonText"/>

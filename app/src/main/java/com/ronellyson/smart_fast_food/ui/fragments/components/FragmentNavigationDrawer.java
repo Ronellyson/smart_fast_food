@@ -31,6 +31,17 @@ public class FragmentNavigationDrawer extends Fragment {
         View rootView = inflater.inflate(R.layout.navigation_drawer, container, false);
 
         ImageButton closeDrawerButton = rootView.findViewById(R.id.close_drawer_button);
+
+
+        // Define o estado inicial do SELECTED_NAVIGATION_OPTION como Home Page
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SELECTED_NAVIGATION_OPTION, getString(R.string.home_page_button));
+        editor.apply();
+
+        // Define o estado inicial do Navigation Drawer como fechado
+        editor.putBoolean("isNavigationDrawerOpen", false);
+        editor.apply();
+
         closeDrawerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +69,7 @@ public class FragmentNavigationDrawer extends Fragment {
             public void onClick(View v) {
                 // Define o estado do Navigation Drawer como aberto no SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(SELECTED_NAVIGATION_OPTION, homePageButton.getText().toString().toLowerCase().replace(" ","_"));
+                editor.putString(SELECTED_NAVIGATION_OPTION, getString(R.string.home_page_button));
                 editor.apply();
             }
         });
@@ -69,7 +80,7 @@ public class FragmentNavigationDrawer extends Fragment {
             public void onClick(View v) {
                 // Define o estado do Navigation Drawer como aberto no SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(SELECTED_NAVIGATION_OPTION, orderHistoryButton.getText().toString().toLowerCase().replace(" ","_"));
+                editor.putString(SELECTED_NAVIGATION_OPTION, getString(R.string.order_history_button));
                 editor.apply();
             }
         });
@@ -80,7 +91,7 @@ public class FragmentNavigationDrawer extends Fragment {
             public void onClick(View v) {
                 // Define o estado do Navigation Drawer como aberto no SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(SELECTED_NAVIGATION_OPTION, addressManagementButton.getText().toString().toLowerCase().replace(" ","_"));
+                editor.putString(SELECTED_NAVIGATION_OPTION, getString(R.string.address_management_button));
                 editor.apply();
             }
         });
@@ -91,7 +102,7 @@ public class FragmentNavigationDrawer extends Fragment {
             public void onClick(View v) {
                 // Define o estado do Navigation Drawer como aberto no SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(SELECTED_NAVIGATION_OPTION, paymentManagementButton.getText().toString().toLowerCase().replace(" ","_"));
+                editor.putString(SELECTED_NAVIGATION_OPTION, getString(R.string.payment_management_button));
                 editor.apply();
             }
         });

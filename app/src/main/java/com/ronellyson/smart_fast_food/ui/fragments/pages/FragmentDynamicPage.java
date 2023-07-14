@@ -42,9 +42,6 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         // Cria uma instância do FragmentNavigationDrawer
         fragmentNavigationDrawer = FragmentNavigationDrawer.newInstance(sharedPreferences);
 
-        // Cria uma instância do FragmentHomePage
-        fragmentHomePage = FragmentHomePage.newInstance();
-
         // Obtém o FragmentManager
         FragmentManager fragmentManager = getChildFragmentManager();
 
@@ -54,14 +51,103 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         // Adiciona o fragmento do FragmentNavigationDrawer ao drawer_container
         fragmentTransaction.add(R.id.drawer_container, fragmentNavigationDrawer);
 
-        // Adiciona o fragmento do FragmentNavigationDrawer ao dynamic_content_container
-        fragmentTransaction.add(R.id.dynamic_content_container, fragmentHomePage);
-
         // Confirma a transação
         fragmentTransaction.commit();
+
+        showFragmentHomePage();
         return rootView;
     }
 
+    public void showFragmentHomePage() {
+        // Cria uma instância do FragmentHomePage
+        FragmentHomePage fragmentHomePage = FragmentHomePage.newInstance(sharedPreferences);
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentAddressManagementPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, fragmentHomePage);
+
+        // Remove o fragmento atual do dynamic_content_container
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        // Confirma a transação
+        fragmentTransaction.commit();
+    }
+
+    public void showFragmentOrderHistoryPage() {
+        // Cria uma instância do FragmentAddressManagementPage
+        FragmentOrderHistoryPage fragmentOrderHistoryPage = FragmentOrderHistoryPage.newInstance(sharedPreferences);
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentAddressManagementPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, fragmentOrderHistoryPage);
+
+        // Remove o fragmento atual do dynamic_content_container
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        // Confirma a transação
+        fragmentTransaction.commit();
+    }
+    public void showFragmentAddressManagementPage() {
+        // Cria uma instância do FragmentAddressManagementPage
+        FragmentAddressManagementPage fragmentAddressManagementPage = FragmentAddressManagementPage.newInstance(sharedPreferences);
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentAddressManagementPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, fragmentAddressManagementPage);
+
+        // Remove o fragmento atual do dynamic_content_container
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        // Confirma a transação
+        fragmentTransaction.commit();
+    }
+
+    public void showFragmentPaymentManagement() {
+        // Cria uma instância do FragmentAddressManagementPage
+        FragmentPaymentManagement fragmentPaymentManagement = FragmentPaymentManagement.newInstance(sharedPreferences);
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentAddressManagementPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, fragmentPaymentManagement);
+
+        // Remove o fragmento atual do dynamic_content_container
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        // Confirma a transação
+        fragmentTransaction.commit();
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -93,9 +179,20 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
                 hideFragmentNavigationDrawer();
             }
         }
-        if (key.equals("selectedNavigationOption")){
-            Log.d("selectedNavigationOption", String.valueOf(sharedPreferences.getString("selectedNavigationOption", "")));
+        if (key.equals("selectedNavigationOption")) {
+            String selectedOption = sharedPreferences.getString(key, "");
+
+            if (selectedOption.equals(getString(R.string.home_page_button))) {
+                showFragmentHomePage();
+            } else if (selectedOption.equals(getString(R.string.order_history_button))) {
+                showFragmentOrderHistoryPage();
+            } else if (selectedOption.equals(getString(R.string.address_management_button))) {
+                showFragmentAddressManagementPage();
+            } else if (selectedOption.equals(getString(R.string.payment_management_button))) {
+                showFragmentPaymentManagement();
+            }
         }
+
     }
 
     private void showFragmentNavigationDrawer() {
