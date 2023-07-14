@@ -3,9 +3,12 @@ package com.ronellyson.smart_fast_food.ui.fragments.pages;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +59,6 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
 
         // Confirma a transação
         fragmentTransaction.commit();
-
         return rootView;
     }
 
@@ -91,6 +93,9 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
                 hideFragmentNavigationDrawer();
             }
         }
+        if (key.equals("selectedNavigationOption")){
+            Log.d("selectedNavigationOption", String.valueOf(sharedPreferences.getString("selectedNavigationOption", "")));
+        }
     }
 
     private void showFragmentNavigationDrawer() {
@@ -107,5 +112,13 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
             fragmentTransaction.hide(fragmentNavigationDrawer);
             fragmentTransaction.commit();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("selectedNavigationOption");
+        editor.remove("isNavigationDrawerOpen");
     }
 }
