@@ -33,9 +33,10 @@ public class FragmentOrderDetailsPage extends Fragment {
             @Override
             public void onClick(View v) {
                 // Update the button state to false
-                MainActivity mainActivity = (MainActivity) requireActivity();
+                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
+
                 // Navigate back to the previous view
-                mainActivity.onBackToCartPagePressed();
+                fragmentDynamicPage.onBackToCartPagePressed();
             }
         });
 

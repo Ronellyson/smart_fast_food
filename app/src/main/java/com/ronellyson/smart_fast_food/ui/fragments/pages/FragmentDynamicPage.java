@@ -26,6 +26,8 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
     private FragmentNavigationDrawer fragmentNavigationDrawer;
 
     private FragmentHomePage fragmentHomePage;
+    private static final String CONTINUE_BUTTON_CLICKED_KEY = "continueButtonClicked";
+
 
     public static FragmentDynamicPage newInstance() {
         return new FragmentDynamicPage();
@@ -38,6 +40,10 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
 
         // Obtém o SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(CONTINUE_BUTTON_CLICKED_KEY, false);
+        editor.apply();
 
         // Cria uma instância do FragmentNavigationDrawer
         fragmentNavigationDrawer = FragmentNavigationDrawer.newInstance(sharedPreferences);
@@ -54,7 +60,8 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         // Confirma a transação
         fragmentTransaction.commit();
 
-        showFragmentHomePage();
+//        showFragmentHomePage();
+        showFragmentAddressManagementPage();
         return rootView;
     }
 
@@ -126,6 +133,71 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         fragmentTransaction.commit();
     }
 
+    public void showAddressRegistrationPageFragment(){
+        FragmentAddressRegistrationPage addressRegistrationPage = FragmentAddressRegistrationPage.newInstance(sharedPreferences);
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentProductCartPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, addressRegistrationPage, "ProductCartPage");
+
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        fragmentTransaction.commit();
+    }
+
+    public void showProductCartPageFragment() {
+        // Cria uma instância do FragmentProductCartPage
+        FragmentProductCartPage productCartPageFragment = FragmentProductCartPage.newInstance();
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentProductCartPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, productCartPageFragment, "ProductCartPage");
+
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        fragmentTransaction.commit();
+    }
+
+    public void showOrderDetailsPageFragment() {
+        boolean continueButtonClicked = sharedPreferences.getBoolean(CONTINUE_BUTTON_CLICKED_KEY, false);
+
+        if (continueButtonClicked) {
+            // Crie uma instância do fragmento FragmentOrderDetailsPage
+            FragmentOrderDetailsPage orderDetailsPageFragment = FragmentOrderDetailsPage.newInstance();
+
+            // Obtém o FragmentManager
+            FragmentManager fragmentManager = getChildFragmentManager();
+
+            // Inicia a transação do fragmento
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            // Adicione o fragmento ao contêiner raiz
+            fragmentTransaction.replace(R.id.dynamic_content_container, orderDetailsPageFragment, "OrderDetailsPage");
+
+            Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+            if (fragment != null) {
+                fragmentTransaction.remove(fragment);
+            }
+            fragmentTransaction.commit();
+        }
+    }
+
     public void showFragmentPaymentManagement() {
         // Cria uma instância do FragmentAddressManagementPage
         FragmentPaymentManagement fragmentPaymentManagement = FragmentPaymentManagement.newInstance(sharedPreferences);
@@ -148,6 +220,19 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         // Confirma a transação
         fragmentTransaction.commit();
     }
+
+    public void onBackToHomePagePressed() {
+        showFragmentHomePage();
+    }
+
+    public void onBackToCartPagePressed() {
+        showProductCartPageFragment();
+    }
+
+    public void onBackToAddressManagementPagePressed() {
+        showFragmentAddressManagementPage();
+    }
+
     @Override
     public void onResume() {
         super.onResume();

@@ -80,10 +80,10 @@ public class FragmentHomePage extends Fragment {
             @Override
             public void onClick(View v) {
                 // Obtém a referência à MainActivity
-                MainActivity mainActivity = (MainActivity) requireActivity();
+                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
 
                 // Notifica a MainActivity sobre a atualização do estado do botão
-                mainActivity.showProductCartPageFragment();
+                fragmentDynamicPage.showProductCartPageFragment();
             }
         });
 

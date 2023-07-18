@@ -42,6 +42,7 @@
         android:layout_below="@+id/address_management_page_address_card_list"
         android:gravity="bottom">
         <Button
+            android:id="@+id/btnAddressRegister"
             style="@style/TextAppearance.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

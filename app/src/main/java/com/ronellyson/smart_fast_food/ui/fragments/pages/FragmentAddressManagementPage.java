@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class FragmentAddressManagementPage extends Fragment {
         View rootView = inflater.inflate(R.layout.address_management_page, container, false);
 
         ImageButton btnOpenDrawer = rootView.findViewById(R.id.btn_open_drawer);
+
         btnOpenDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +42,17 @@ public class FragmentAddressManagementPage extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isNavigationDrawerOpen", true);
                 editor.apply();
+            }
+        });
+
+        Button btnAddressRegister = rootView.findViewById(R.id.btnAddressRegister);
+        btnAddressRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtém a referência à MainActivity
+                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
+
+                fragmentDynamicPage.showAddressRegistrationPageFragment();
             }
         });
 

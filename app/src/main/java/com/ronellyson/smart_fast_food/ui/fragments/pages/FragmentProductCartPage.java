@@ -48,8 +48,8 @@ public class FragmentProductCartPage extends Fragment {
             @Override
             public void onClick(View v) {
                 // Update the button state to false
-                MainActivity mainActivity = (MainActivity) requireActivity();
-                mainActivity.onBackToHomePagePressed();
+                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
+                fragmentDynamicPage.onBackToHomePagePressed();
             }
         });
 
@@ -58,10 +58,10 @@ public class FragmentProductCartPage extends Fragment {
             @Override
             public void onClick(View v) {
                 // Update the button state to true
-                MainActivity mainActivity = (MainActivity) requireActivity();
+                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
                 FragmentProductCartItemList fragment = (FragmentProductCartItemList) getChildFragmentManager().findFragmentById(R.id.product_cart_item_list_container);
                 fragment.getAdapter().setContinueButtonClicked(true);
-                mainActivity.showOrderDetailsPageFragment();
+                fragmentDynamicPage.showOrderDetailsPageFragment();
             }
         });
 
