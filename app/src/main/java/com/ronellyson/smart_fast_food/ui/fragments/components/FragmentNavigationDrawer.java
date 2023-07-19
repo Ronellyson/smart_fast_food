@@ -17,7 +17,6 @@ import com.ronellyson.smart_fast_food.R;
 public class FragmentNavigationDrawer extends Fragment {
     private SharedPreferences sharedPreferences;
     private static final String SELECTED_NAVIGATION_OPTION = "selectedNavigationOption";
-    private int selectedScreen = -1;
 
     public static FragmentNavigationDrawer newInstance(SharedPreferences sharedPreferences) {
         FragmentNavigationDrawer fragment = new FragmentNavigationDrawer();

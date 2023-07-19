@@ -13,6 +13,9 @@
     <color name="normalColorButton">#FF6200EE</color>
     <color name="pressedColorButton">#CC6200EE</color>
 
+    <color name="normalColorButtonCancel">#EE0000</color>
+    <color name="pressedColorButtonCancel">#CC0000</color>
+
     <color name="normalColorAddButton">#FF6200EE</color>
     <color name="selectedColorAddButton">#FFFFFFFF</color>
 

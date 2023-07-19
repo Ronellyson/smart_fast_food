@@ -1,5 +1,6 @@
 package com.ronellyson.smart_fast_food.ui.fragments.components;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,15 @@ public class FragmentAddressCardList extends Fragment {
 
     private RecyclerView recyclerView;
     private AddressCardListAdapter addressCardListAdapter;
+
+    private SharedPreferences sharedPreferences;
+
     private List<Address> addressList;
 
-    public static FragmentAddressCardList newInstance() {
-        return new FragmentAddressCardList();
+    public static FragmentAddressCardList newInstance(SharedPreferences sharedPreferences) {
+        FragmentAddressCardList fragment = new FragmentAddressCardList();
+        fragment.sharedPreferences = sharedPreferences;
+        return fragment;
     }
 
     @Override

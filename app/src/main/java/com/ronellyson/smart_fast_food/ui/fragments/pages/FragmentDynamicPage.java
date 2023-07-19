@@ -133,7 +133,7 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         fragmentTransaction.commit();
     }
 
-    public void showAddressRegistrationPageFragment(){
+    public void showAddressRegistrationPageFragment(SharedPreferences sharedPreferences){
         FragmentAddressRegistrationPage addressRegistrationPage = FragmentAddressRegistrationPage.newInstance(sharedPreferences);
 
         // Obtém o FragmentManager

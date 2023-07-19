@@ -110,7 +110,8 @@ public class FragmentAddressRegistrationPage extends Fragment {
                 }
 
                 if (!hasError) {
-                    // Perform registration logic here
+                    // Salva o endereço no SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                 }
             }
         });

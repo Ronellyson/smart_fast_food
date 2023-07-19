@@ -52,7 +52,7 @@ public class FragmentAddressManagementPage extends Fragment {
                 // Obtém a referência à MainActivity
                 FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
 
-                fragmentDynamicPage.showAddressRegistrationPageFragment();
+                fragmentDynamicPage.showAddressRegistrationPageFragment(sharedPreferences);
             }
         });
 
@@ -60,7 +60,7 @@ public class FragmentAddressManagementPage extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
 
         // Cria uma instância do fragmento que você deseja exibir
-        FragmentAddressCardList fragmentAddressCardList = FragmentAddressCardList.newInstance();
+        FragmentAddressCardList fragmentAddressCardList = FragmentAddressCardList.newInstance(sharedPreferences);
 
         // Inicia a transação do fragmento
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
