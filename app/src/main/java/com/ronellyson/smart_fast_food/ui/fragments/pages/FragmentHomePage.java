@@ -91,7 +91,7 @@ public class FragmentHomePage extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
 
         // Cria uma instância do fragmento que você deseja exibir
-        FragmentProductCardList fragmentProductCardList = FragmentProductCardList.newInstance();
+        FragmentProductCardList fragmentProductCardList = FragmentProductCardList.newInstance(sharedPreferences);
 
         // Cria uma instância do fragmento FragmentProductCategoryButtonList
         FragmentProductCategoryButtonList fragmentProductCategoryButtonList = FragmentProductCategoryButtonList.newInstance();

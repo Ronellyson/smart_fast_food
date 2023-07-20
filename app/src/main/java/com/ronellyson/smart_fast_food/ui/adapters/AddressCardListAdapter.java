@@ -1,25 +1,73 @@
 package com.ronellyson.smart_fast_food.ui.adapters;
 
-import android.support.annotation.NonNull;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Address;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardListAdapter.ViewHolder> {
 
-    private List<Address> addressList;
+    private List<Address> addressList = new ArrayList<>();
+    private static Boolean showCheckBoxes;
 
-    public AddressCardListAdapter(List<Address> addressList) {
-        this.addressList = addressList;
+    private SharedPreferences sharedPreferences;
+    private Gson gson = new Gson();
+
+    // Add a new constructor to receive a boolean flag indicating if the cards should have selectable checkboxes or not
+    public AddressCardListAdapter(SharedPreferences sharedPreferences, boolean showCheckBoxes) {
+        this.sharedPreferences = sharedPreferences;
+        this.showCheckBoxes = showCheckBoxes;
+        retrieveAddressList();
+    }
+
+
+    // Método para salvar a lista de endereços no SharedPreferences
+    private void saveAddressList() {
+        Set<String> addressStringSet = new HashSet<>();
+        for (Address address : addressList) {
+            String addressJson = gson.toJson(address);
+            addressStringSet.add(addressJson);
+        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet("addressList", addressStringSet);
+        editor.apply();
+    }
+
+    // Método para carregar a lista de endereços do SharedPreferences
+    private void retrieveAddressList() {
+        Set<String> addressStringSet = sharedPreferences.getStringSet("addressList", new HashSet<>());
+        addressList.clear();
+        for (String addressJson : addressStringSet) {
+            Address address = gson.fromJson(addressJson, Address.class);
+            if (address != null) {
+                addressList.add(address);
+            }
+        }
+    }
+
+    // Método para remover um endereço da lista
+    public void removeAddress(int position) {
+        if (position >= 0 && position < addressList.size()) {
+            addressList.remove(position);
+            notifyItemRemoved(position);
+            saveAddressList(); // Salva a lista atualizada no SharedPreferences
+        }
     }
 
     @NonNull
@@ -45,11 +93,7 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
         holder.textPhone.setText(address.getPhone());
 
         // Defina a visibilidade da CheckBox com base na propriedade "selected" do endereço
-        if (address.isSelected()) {
-            holder.checkBox.setChecked(true);
-        } else {
-            holder.checkBox.setChecked(false);
-        }
+        holder.checkBox.setChecked(address.isSelected());
     }
 
     @Override
@@ -57,7 +101,7 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
         return addressList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textHolder;
         public TextView textStreet;
@@ -80,6 +124,15 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
             textCountry = itemView.findViewById(R.id.address_country);
             textPhone = itemView.findViewById(R.id.address_phone);
             checkBox = itemView.findViewById(R.id.address_selector_checkbox);
+
+            // Get the LinearLayout containing the CheckBox in the card layout
+            LinearLayout checkBoxLayout = itemView.findViewById(R.id.address_selector_checkbox_container);
+            // Set the visibility of the CheckBox based on the showCheckBoxes flag
+            if (showCheckBoxes) {
+                checkBoxLayout.setVisibility(View.VISIBLE);
+            } else {
+                checkBoxLayout.setVisibility(View.GONE);
+            }
         }
     }
 }

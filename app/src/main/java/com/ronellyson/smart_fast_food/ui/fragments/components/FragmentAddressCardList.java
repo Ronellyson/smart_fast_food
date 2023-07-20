@@ -21,14 +21,13 @@ public class FragmentAddressCardList extends Fragment {
 
     private RecyclerView recyclerView;
     private AddressCardListAdapter addressCardListAdapter;
-
+    private Boolean showCheckBoxes;
     private SharedPreferences sharedPreferences;
 
-    private List<Address> addressList;
-
-    public static FragmentAddressCardList newInstance(SharedPreferences sharedPreferences) {
+    public static FragmentAddressCardList newInstance(SharedPreferences sharedPreferences, Boolean showCheckBoxes) {
         FragmentAddressCardList fragment = new FragmentAddressCardList();
         fragment.sharedPreferences = sharedPreferences;
+        fragment.showCheckBoxes = showCheckBoxes;
         return fragment;
     }
 
@@ -42,26 +41,13 @@ public class FragmentAddressCardList extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Inicializa a lista de endereços
-        addressList = new ArrayList<>();
-        addressCardListAdapter = new AddressCardListAdapter(addressList);
+        addressCardListAdapter = new AddressCardListAdapter(sharedPreferences, showCheckBoxes);
         recyclerView.setAdapter(addressCardListAdapter);
-
-        // Adicione os endereços de exemplo à lista
-        addExampleAddresses();
 
         return view;
     }
 
-    // Método para adicionar endereços de exemplo à lista
-    private void addExampleAddresses() {
-        addressList.add(new Address("John Doe", "123 Main St", "Apt 4", "Downtown", "12345",
-                "California", "USA", "+1 123-456-7890", false));
-        addressList.add(new Address("Jane Smith", "456 Elm St", "Apt 8", "Suburb", "67890",
-                "New York", "USA", "+1 987-654-3210", false));
-        addressList.add(new Address("David Johnson", "789 Oak St", "Unit 12", "City Center", "54321",
-                "Texas", "USA", "+1 555-123-4567", false));
-
-        // Notifique o adaptador de que os dados foram alterados
-        addressCardListAdapter.notifyDataSetChanged();
+    public AddressCardListAdapter getAddressCardListAdapter() {
+        return addressCardListAdapter;
     }
 }

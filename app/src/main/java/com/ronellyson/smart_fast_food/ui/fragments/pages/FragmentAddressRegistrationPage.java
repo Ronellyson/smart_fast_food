@@ -1,7 +1,9 @@
 package com.ronellyson.smart_fast_food.ui.fragments.pages;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ronellyson.smart_fast_food.R;
+import com.ronellyson.smart_fast_food.data.model.Address;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FragmentAddressRegistrationPage extends Fragment {
     SharedPreferences sharedPreferences;
@@ -110,9 +120,39 @@ public class FragmentAddressRegistrationPage extends Fragment {
                 }
 
                 if (!hasError) {
-                    // Salva o endereço no SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Address newAddress = new Address(holder, street, number, neighborhood, zipCode, state, country, phone);
+                    addAddressToSharedPreferences(newAddress);
                 }
+            }
+
+            private void addAddressToSharedPreferences(Address address) {
+                // Obter a lista de endereços atual do SharedPreferences
+                Set<String> addressesSet = sharedPreferences.getStringSet("addressList", new HashSet<>());
+                Gson gson = new Gson();
+                List<Address> addressList = new ArrayList<>();
+
+                // Converter o conjunto de endereços em uma lista
+                for (String addressJson : addressesSet) {
+                    Address existingAddress = gson.fromJson(addressJson, Address.class);
+                    if (existingAddress != null) {
+                        addressList.add(existingAddress);
+                    }
+                }
+
+                // Adicionar o novo endereço à lista
+                addressList.add(address);
+
+                // Converter a lista atualizada de volta para um conjunto
+                Set<String> updatedAddressesSet = new HashSet<>();
+                for (Address updatedAddress : addressList) {
+                    String updatedAddressJson = gson.toJson(updatedAddress);
+                    updatedAddressesSet.add(updatedAddressJson);
+                }
+
+                // Salvar o conjunto atualizado no SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putStringSet("addressList", updatedAddressesSet);
+                editor.apply();
             }
         });
 

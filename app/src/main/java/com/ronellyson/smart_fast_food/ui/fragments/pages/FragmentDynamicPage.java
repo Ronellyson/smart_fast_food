@@ -24,8 +24,6 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
     private static final String SHARED_PREFS_NAME = "MyPrefs";
     private SharedPreferences sharedPreferences;
     private FragmentNavigationDrawer fragmentNavigationDrawer;
-
-    private FragmentHomePage fragmentHomePage;
     private static final String CONTINUE_BUTTON_CLICKED_KEY = "continueButtonClicked";
 
 
@@ -179,7 +177,7 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
 
         if (continueButtonClicked) {
             // Crie uma instância do fragmento FragmentOrderDetailsPage
-            FragmentOrderDetailsPage orderDetailsPageFragment = FragmentOrderDetailsPage.newInstance();
+            FragmentOrderDetailsPage orderDetailsPageFragment = FragmentOrderDetailsPage.newInstance(sharedPreferences);
 
             // Obtém o FragmentManager
             FragmentManager fragmentManager = getChildFragmentManager();

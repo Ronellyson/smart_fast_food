@@ -1,5 +1,6 @@
 package com.ronellyson.smart_fast_food.ui.fragments.pages;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ronellyson.smart_fast_food.R;
-import com.ronellyson.smart_fast_food.ui.MainActivity;
 import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentAddressCardList;
-import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentProductCardList;
 
 public class FragmentOrderDetailsPage extends Fragment {
 
-    public static FragmentOrderDetailsPage newInstance() {
-        return new FragmentOrderDetailsPage();
+    SharedPreferences sharedPreferences;
+
+    public static FragmentOrderDetailsPage newInstance(SharedPreferences sharedPreferences) {
+        FragmentOrderDetailsPage fragment = new FragmentOrderDetailsPage();
+        fragment.sharedPreferences = sharedPreferences;
+        return fragment;
     }
 
     @Nullable
@@ -44,7 +47,7 @@ public class FragmentOrderDetailsPage extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
 
         // Cria uma instância do fragmento que você deseja exibir
-        FragmentAddressCardList fragmentProductCardList = FragmentAddressCardList.newInstance();
+        FragmentAddressCardList fragmentProductCardList = FragmentAddressCardList.newInstance(sharedPreferences, true);
 
         // Inicia a transação do fragmento
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

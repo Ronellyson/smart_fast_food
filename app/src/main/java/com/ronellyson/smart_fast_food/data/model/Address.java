@@ -13,7 +13,7 @@ public class Address {
 
     // Construtor
     public Address(String holder, String street, String number, String neighborhood,
-                   String zipCode, String state, String country, String phone, boolean selected) {
+                   String zipCode, String state, String country, String phone) {
         this.holder = holder;
         this.street = street;
         this.number = number;
@@ -22,7 +22,7 @@ public class Address {
         this.state = state;
         this.country = country;
         this.phone = phone;
-        this.selected = selected;
+        this.selected = false;
     }
 
     // Getters e Setters

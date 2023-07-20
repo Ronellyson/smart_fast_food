@@ -33,8 +33,10 @@ public class FragmentProductCardList extends Fragment implements SharedPreferenc
 
     private String currentCategoryName;
 
-    public static FragmentProductCardList newInstance() {
-        return new FragmentProductCardList();
+    public static FragmentProductCardList newInstance(SharedPreferences sharedPreferences) {
+        FragmentProductCardList fragment = new FragmentProductCardList();
+        fragment.sharedPreferences = sharedPreferences;
+        return fragment;
     }
 
     @Nullable
@@ -55,9 +57,6 @@ public class FragmentProductCardList extends Fragment implements SharedPreferenc
 
         // Initialize the products list before using it in the adapter
         products = new ArrayList<>();
-
-        // Initialize the shared preferences
-        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         adapter = new ProductCardListAdapter(products, position -> {
             // Handle add button click
