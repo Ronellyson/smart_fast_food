@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Address;
 
@@ -25,14 +25,15 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
 
     private List<Address> addressList = new ArrayList<>();
     private static Boolean showCheckBoxes;
-
+    private static Boolean showActionButtons;
     private SharedPreferences sharedPreferences;
     private Gson gson = new Gson();
 
     // Add a new constructor to receive a boolean flag indicating if the cards should have selectable checkboxes or not
-    public AddressCardListAdapter(SharedPreferences sharedPreferences, boolean showCheckBoxes) {
+    public AddressCardListAdapter(SharedPreferences sharedPreferences, Boolean showCheckBoxes, Boolean showActionButtons) {
         this.sharedPreferences = sharedPreferences;
         this.showCheckBoxes = showCheckBoxes;
+        this.showActionButtons = showActionButtons;
         retrieveAddressList();
     }
 
@@ -94,6 +95,15 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
 
         // Defina a visibilidade da CheckBox com base na propriedade "selected" do endereço
         holder.checkBox.setChecked(address.isSelected());
+
+        // Add a click listener to the deleteButton
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int clickedPosition = holder.getBindingAdapterPosition();
+                removeAddress(clickedPosition);
+            }
+        });
     }
 
     @Override
@@ -112,6 +122,7 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
         public TextView textCountry;
         public TextView textPhone;
         public CheckBox checkBox;
+        public ImageButton deleteButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +135,7 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
             textCountry = itemView.findViewById(R.id.address_country);
             textPhone = itemView.findViewById(R.id.address_phone);
             checkBox = itemView.findViewById(R.id.address_selector_checkbox);
+            deleteButton = itemView.findViewById(R.id.delete_button);
 
             // Get the LinearLayout containing the CheckBox in the card layout
             LinearLayout checkBoxLayout = itemView.findViewById(R.id.address_selector_checkbox_container);
@@ -132,6 +144,15 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
                 checkBoxLayout.setVisibility(View.VISIBLE);
             } else {
                 checkBoxLayout.setVisibility(View.GONE);
+            }
+
+            // Get the LinearLayout containing the action buttons in the card layout
+            LinearLayout actionButtonsLayout = itemView.findViewById(R.id.action_buttons_container);
+            // Set the visibility of the action buttons based on the showActionButtons flag
+            if (showActionButtons) {
+                actionButtonsLayout.setVisibility(View.VISIBLE);
+            } else {
+                actionButtonsLayout.setVisibility(View.GONE);
             }
         }
     }

@@ -47,7 +47,7 @@ public class FragmentOrderDetailsPage extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
 
         // Cria uma instância do fragmento que você deseja exibir
-        FragmentAddressCardList fragmentProductCardList = FragmentAddressCardList.newInstance(sharedPreferences, true);
+        FragmentAddressCardList fragmentProductCardList = FragmentAddressCardList.newInstance(sharedPreferences, true, false);
 
         // Inicia a transação do fragmento
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

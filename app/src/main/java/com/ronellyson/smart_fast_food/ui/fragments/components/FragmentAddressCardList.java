@@ -22,12 +22,14 @@ public class FragmentAddressCardList extends Fragment {
     private RecyclerView recyclerView;
     private AddressCardListAdapter addressCardListAdapter;
     private Boolean showCheckBoxes;
+    private Boolean showActionButtons;
     private SharedPreferences sharedPreferences;
 
-    public static FragmentAddressCardList newInstance(SharedPreferences sharedPreferences, Boolean showCheckBoxes) {
+    public static FragmentAddressCardList newInstance(SharedPreferences sharedPreferences, Boolean showCheckBoxes, Boolean showActionButtons) {
         FragmentAddressCardList fragment = new FragmentAddressCardList();
         fragment.sharedPreferences = sharedPreferences;
         fragment.showCheckBoxes = showCheckBoxes;
+        fragment.showActionButtons = showActionButtons;
         return fragment;
     }
 
@@ -41,7 +43,7 @@ public class FragmentAddressCardList extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Inicializa a lista de endereços
-        addressCardListAdapter = new AddressCardListAdapter(sharedPreferences, showCheckBoxes);
+        addressCardListAdapter = new AddressCardListAdapter(sharedPreferences, showCheckBoxes, showActionButtons);
         recyclerView.setAdapter(addressCardListAdapter);
 
         return view;
