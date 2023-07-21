@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textPaymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Payment Method:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textSelectedPaymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textPaymentMethod" />
+
+    <TextView
+        android:id="@+id/textSelectedAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textSelectedPaymentMethod"
+        android:layout_marginTop="16dp"
+        android:text="Selected Address:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textAddressDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textSelectedAddress" />
+
+    <TextView
+        android:id="@+id/textOrderDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textAddressDetails"
+        android:layout_marginTop="16dp"
+        android:text="Order Details:"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textOrderDetails"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textTotalAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayoutItems"
+        android:layout_marginTop="16dp"
+        android:text="Total Amount:"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textTotalValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textTotalAmount" />
+
+</RelativeLayout>

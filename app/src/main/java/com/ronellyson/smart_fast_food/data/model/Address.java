@@ -9,7 +9,7 @@ public class Address {
     private String state;
     private String country;
     private String phone;
-    private boolean selected;
+    private boolean isSelected;
 
     // Construtor
     public Address(String holder, String street, String number, String neighborhood,
@@ -22,12 +22,12 @@ public class Address {
         this.state = state;
         this.country = country;
         this.phone = phone;
-        this.selected = false;
+        this.isSelected = false;
     }
 
     // Getters e Setters
     public String getHolder() {
-        return holder;
+        return this.holder;
     }
 
     public void setHolder(String holder) {
@@ -35,7 +35,7 @@ public class Address {
     }
 
     public String getStreet() {
-        return street;
+        return this.street;
     }
 
     public void setStreet(String street) {
@@ -43,7 +43,7 @@ public class Address {
     }
 
     public String getNumber() {
-        return number;
+        return this.number;
     }
 
     public void setNumber(String number) {
@@ -51,7 +51,7 @@ public class Address {
     }
 
     public String getNeighborhood() {
-        return neighborhood;
+        return this.neighborhood;
     }
 
     public void setNeighborhood(String neighborhood) {
@@ -59,7 +59,7 @@ public class Address {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return this.zipCode;
     }
 
     public void setZipCode(String zipCode) {
@@ -67,7 +67,7 @@ public class Address {
     }
 
     public String getState() {
-        return state;
+        return this.state;
     }
 
     public void setState(String state) {
@@ -75,7 +75,7 @@ public class Address {
     }
 
     public String getCountry() {
-        return country;
+        return this.country;
     }
 
     public void setCountry(String country) {
@@ -83,7 +83,7 @@ public class Address {
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public void setPhone(String phone) {
@@ -91,11 +91,11 @@ public class Address {
     }
 
     public boolean isSelected() {
-        return selected;
+        return this.isSelected;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }
 

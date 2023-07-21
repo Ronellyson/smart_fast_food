@@ -1,6 +1,7 @@
 package com.ronellyson.smart_fast_food.ui.fragments.pages;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
@@ -27,6 +29,14 @@ import java.util.Set;
 
 public class FragmentAddressRegistrationPage extends Fragment {
     SharedPreferences sharedPreferences;
+    private EditText holderEditText;
+    private EditText streetEditText;
+    private EditText numberEditText;
+    private EditText neighborhoodEditText;
+    private EditText zipCodeEditText;
+    private EditText stateEditText;
+    private EditText countryEditText;
+    private EditText phoneEditText;
 
     public static FragmentAddressRegistrationPage newInstance(SharedPreferences sharedPreferences) {
         FragmentAddressRegistrationPage fragment = new FragmentAddressRegistrationPage();
@@ -38,25 +48,17 @@ public class FragmentAddressRegistrationPage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.address_registration_page, container, false);
-        ImageButton backButton = rootView.findViewById(R.id.address_registration_page_back_button);
-        EditText holderEditText = rootView.findViewById(R.id.edit_holder);
-        EditText streetEditText = rootView.findViewById(R.id.edit_street);
-        EditText numberEditText = rootView.findViewById(R.id.edit_number);
-        EditText neighborhoodEditText = rootView.findViewById(R.id.edit_neighborhood);
-        EditText zipCodeEditText = rootView.findViewById(R.id.edit_zip_code);
-        EditText stateEditText = rootView.findViewById(R.id.edit_state);
-        EditText countryEditText = rootView.findViewById(R.id.edit_country);
-        EditText phoneEditText = rootView.findViewById(R.id.edit_phone);
+
+        holderEditText = rootView.findViewById(R.id.edit_holder);
+        streetEditText = rootView.findViewById(R.id.edit_street);
+        numberEditText = rootView.findViewById(R.id.edit_number);
+        neighborhoodEditText = rootView.findViewById(R.id.edit_neighborhood);
+        zipCodeEditText = rootView.findViewById(R.id.edit_zip_code);
+        stateEditText = rootView.findViewById(R.id.edit_state);
+        countryEditText = rootView.findViewById(R.id.edit_country);
+        phoneEditText = rootView.findViewById(R.id.edit_phone);
         Button registerButton = rootView.findViewById(R.id.button_register);
         Button cancelButton = rootView.findViewById(R.id.button_cancel);
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
-                fragmentDynamicPage.onBackToAddressManagementPagePressed();
-            }
-        });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +124,8 @@ public class FragmentAddressRegistrationPage extends Fragment {
                 if (!hasError) {
                     Address newAddress = new Address(holder, street, number, neighborhood, zipCode, state, country, phone);
                     addAddressToSharedPreferences(newAddress);
+                    clearFormField();
+                    showAddressRegisteredPopup();
                 }
             }
 
@@ -159,10 +163,36 @@ public class FragmentAddressRegistrationPage extends Fragment {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Perform cancel logic here
+                FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
+
+                fragmentDynamicPage.onBackToAddressManagementPagePressed();
             }
         });
-
         return rootView;
+    }
+    // Method to clear all form fields
+    private void clearFormField() {
+        holderEditText.setText("");
+        streetEditText.setText("");
+        numberEditText.setText("");
+        neighborhoodEditText.setText("");
+        zipCodeEditText.setText("");
+        stateEditText.setText("");
+        countryEditText.setText("");
+        phoneEditText.setText("");
+    }
+
+    // Method to show the address registration confirmation pop-up
+    public void showAddressRegisteredPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Endereço Registrado");
+        builder.setMessage("O endereço foi registrado com sucesso!");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

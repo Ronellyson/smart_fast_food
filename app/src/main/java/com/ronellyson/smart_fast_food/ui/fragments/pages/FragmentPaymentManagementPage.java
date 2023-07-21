@@ -15,13 +15,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ronellyson.smart_fast_food.R;
-import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentAddressCardList;
+import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentPaymentMethodCardList;
 
-public class FragmentAddressManagementPage extends Fragment {
+public class FragmentPaymentManagementPage extends Fragment {
     SharedPreferences sharedPreferences;
 
-    public static FragmentAddressManagementPage newInstance(SharedPreferences sharedPreferences) {
-        FragmentAddressManagementPage fragment = new FragmentAddressManagementPage();
+    public static FragmentPaymentManagementPage newInstance(SharedPreferences sharedPreferences) {
+        FragmentPaymentManagementPage fragment = new FragmentPaymentManagementPage();
         fragment.sharedPreferences = sharedPreferences;
         return fragment;
     }
@@ -29,10 +29,9 @@ public class FragmentAddressManagementPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.address_management_page, container, false);
+        View rootView = inflater.inflate(R.layout.payment_method_management_page, container, false);
 
         ImageButton btnOpenDrawer = rootView.findViewById(R.id.btn_open_drawer);
-
         btnOpenDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,14 +42,14 @@ public class FragmentAddressManagementPage extends Fragment {
             }
         });
 
-        Button btnAddressRegister = rootView.findViewById(R.id.btnAddressRegister);
-        btnAddressRegister.setOnClickListener(new View.OnClickListener() {
+        Button btnPaymentMethodRegister = rootView.findViewById(R.id.btnPaymentMethodRegister);
+        btnPaymentMethodRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Obtém a referência à MainActivity
                 FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
 
-                fragmentDynamicPage.showAddressRegistrationPageFragment(sharedPreferences);
+                fragmentDynamicPage.showPaymentMethodRegistrationPage(sharedPreferences);
             }
         });
 
@@ -58,13 +57,13 @@ public class FragmentAddressManagementPage extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
 
         // Cria uma instância do fragmento que você deseja exibir
-        FragmentAddressCardList fragmentAddressCardList = FragmentAddressCardList.newInstance(sharedPreferences, false, true);
+        FragmentPaymentMethodCardList fragmentPaymentMethodCardList = FragmentPaymentMethodCardList.newInstance(sharedPreferences, false, true);
 
         // Inicia a transação do fragmento
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Adiciona o fragmento ao container do fragmento principal
-        fragmentTransaction.add(R.id.address_card_list_container,fragmentAddressCardList);
+        fragmentTransaction.add(R.id.payment_method_card_list_container,fragmentPaymentMethodCardList);
 
         // Confirma a transação
         fragmentTransaction.commit();

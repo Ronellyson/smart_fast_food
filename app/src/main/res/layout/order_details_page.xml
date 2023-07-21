@@ -59,7 +59,7 @@
         />
 
     <FrameLayout
-        android:id="@+id/address_card_list_container"
+        android:id="@+id/order_details_page_address_card_list_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -74,7 +74,7 @@
         android:layout_marginStart="16dp" />
 
     <FrameLayout
-        android:id="@+id/payment_card_list_container"
+        android:id="@+id/order_details_page_payment_method_card_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

@@ -30,7 +30,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/address_management_page_address_card_list"
+        android:id="@+id/address_card_list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topPanel"/>
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/address_management_page_address_card_list"
+        android:layout_below="@+id/address_card_list_container"
         android:gravity="bottom">
         <Button
             android:id="@+id/btnAddressRegister"

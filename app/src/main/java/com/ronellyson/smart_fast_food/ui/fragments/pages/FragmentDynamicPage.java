@@ -3,12 +3,9 @@ package com.ronellyson.smart_fast_food.ui.fragments.pages;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,7 +56,8 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         fragmentTransaction.commit();
 
 //        showFragmentHomePage();
-        showFragmentAddressManagementPage();
+//        showFragmentAddressManagementPage();
+        showFragmentPaymentManagement();
         return rootView;
     }
 
@@ -151,6 +149,26 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         fragmentTransaction.commit();
     }
 
+    public void showPaymentMethodRegistrationPage(SharedPreferences sharedPreferences){
+        FragmentPaymentMethodRegistrationPage paymentMethodRegistrationPage = FragmentPaymentMethodRegistrationPage.newInstance(sharedPreferences);
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento FragmentProductCartPage ao drawer_container
+        fragmentTransaction.replace(R.id.dynamic_content_container, paymentMethodRegistrationPage, "ProductCartPage");
+
+        Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        fragmentTransaction.commit();
+    }
+
     public void showProductCartPageFragment() {
         // Cria uma instância do FragmentProductCartPage
         FragmentProductCartPage productCartPageFragment = FragmentProductCartPage.newInstance();
@@ -198,7 +216,7 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
 
     public void showFragmentPaymentManagement() {
         // Cria uma instância do FragmentAddressManagementPage
-        FragmentPaymentManagement fragmentPaymentManagement = FragmentPaymentManagement.newInstance(sharedPreferences);
+        FragmentPaymentManagementPage fragmentPaymentManagementPage = FragmentPaymentManagementPage.newInstance(sharedPreferences);
 
         // Obtém o FragmentManager
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -207,7 +225,7 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Adiciona o fragmento FragmentAddressManagementPage ao drawer_container
-        fragmentTransaction.replace(R.id.dynamic_content_container, fragmentPaymentManagement);
+        fragmentTransaction.replace(R.id.dynamic_content_container, fragmentPaymentManagementPage);
 
         // Remove o fragmento atual do dynamic_content_container
         Fragment fragment = fragmentManager.findFragmentById(R.id.dynamic_content_container);
@@ -222,14 +240,16 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
     public void onBackToHomePagePressed() {
         showFragmentHomePage();
     }
-
     public void onBackToCartPagePressed() {
         showProductCartPageFragment();
     }
-
     public void onBackToAddressManagementPagePressed() {
         showFragmentAddressManagementPage();
     }
+    public void onBackToPaymentMethodManagementPagePressed() {
+        showFragmentPaymentManagement();
+    }
+
 
     @Override
     public void onResume() {
