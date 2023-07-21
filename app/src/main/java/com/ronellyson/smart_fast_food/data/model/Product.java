@@ -1,6 +1,7 @@
 package com.ronellyson.smart_fast_food.data.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 public class Product {
@@ -43,7 +44,7 @@ public class Product {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return price.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setPrice(BigDecimal price) {
@@ -64,5 +65,17 @@ public class Product {
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", rate=" + rate +
+                '}';
     }
 }

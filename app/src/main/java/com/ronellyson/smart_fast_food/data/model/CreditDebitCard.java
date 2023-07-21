@@ -57,4 +57,15 @@ public class CreditDebitCard implements PaymentMethod {
     public void setIsSelected(Boolean selected) {
         isSelected = selected;
     }
+
+    @Override
+    public String toString() {
+        String lastFourDigits = "**** **** **** " + cardNumber.substring(cardNumber.length() - 4);
+        String cardType = isCredit ? "Crédito" : "Débito";
+
+        return "  Número do Cartão: '" + lastFourDigits + '\'' +
+                "\n  Nome do Titular: '" + cardHolderName + '\'' +
+                "\n  Data de Expiração: '" + expirationDate + '\'' +
+                "\n  Tipo: " + cardType;
+    }
 }

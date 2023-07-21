@@ -28,4 +28,9 @@
             android:textColor="@color/colorPrimary"
             android:textSize="24dp" />
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/item_order_history_card_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topPanel"/>
 </RelativeLayout>

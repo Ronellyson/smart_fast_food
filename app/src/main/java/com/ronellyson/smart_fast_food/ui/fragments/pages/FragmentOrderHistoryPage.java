@@ -10,8 +10,12 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.ronellyson.smart_fast_food.R;
+import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentAddressCardList;
+import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentItemOrderHistoryCardList;
 
 public class FragmentOrderHistoryPage extends Fragment {
     SharedPreferences sharedPreferences;
@@ -37,6 +41,21 @@ public class FragmentOrderHistoryPage extends Fragment {
                 editor.apply();
             }
         });
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        // Cria uma instância do fragmento que você deseja exibir
+        FragmentItemOrderHistoryCardList fragmentItemOrderHistoryCardList = FragmentItemOrderHistoryCardList.newInstance(sharedPreferences);
+
+        // Inicia a transação do fragmento
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adiciona o fragmento ao container do fragmento principal
+        fragmentTransaction.add(R.id.item_order_history_card_list_container, fragmentItemOrderHistoryCardList);
+
+        // Confirma a transação
+        fragmentTransaction.commit();
 
         return rootView;
     }

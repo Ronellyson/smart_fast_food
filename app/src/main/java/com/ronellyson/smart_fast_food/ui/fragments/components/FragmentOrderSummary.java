@@ -1,8 +1,6 @@
 package com.ronellyson.smart_fast_food.ui.fragments.components;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Address;
 import com.ronellyson.smart_fast_food.data.model.CreditDebitCard;
@@ -20,23 +17,26 @@ import com.ronellyson.smart_fast_food.data.model.ProductCartItem;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentOrderSummary extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    private SharedPreferences sharedPreferences;
+public class FragmentOrderSummary extends Fragment{
     private TextView textSelectedPaymentMethod;
     private TextView textAddressDetails;
     private LinearLayout productCartItemsContainer;
     private TextView textTotalValue;
 
     private Gson gson = new Gson();
+    private Address selectedAddress;
+    private CreditDebitCard selectedPaymentMethod;
+    private List<ProductCartItem> productCartItems;
+    private BigDecimal totalValue;
 
-
-    public static FragmentOrderSummary newInstance(SharedPreferences sharedPreferences) {
+    public static FragmentOrderSummary newInstance(Address selectedAddress, CreditDebitCard selectedPaymentMethod, List<ProductCartItem> productCartItems, BigDecimal totalValue) {
         FragmentOrderSummary fragment = new FragmentOrderSummary();
-        fragment.sharedPreferences = sharedPreferences;
+        fragment.selectedAddress = selectedAddress;
+        fragment.selectedPaymentMethod = selectedPaymentMethod;
+        fragment.productCartItems = productCartItems;
+        fragment.totalValue = totalValue;
         return fragment;
     }
 
@@ -46,13 +46,7 @@ public class FragmentOrderSummary extends Fragment implements SharedPreferences.
         textSelectedPaymentMethod = view.findViewById(R.id.textSelectedPaymentMethod);
         textAddressDetails = view.findViewById(R.id.textAddressDetails);
         productCartItemsContainer = view.findViewById(R.id.productCartItemsContainer);
-        textTotalValue = view.findViewById(R.id.textTotalValue);;
-
-        // Retrieve the initial values of selectedAddress and selectedPaymentMethod
-        Address selectedAddress = getSelectedAddress();
-        CreditDebitCard selectedPaymentMethod = getSelectedPaymentMethod();
-        List<ProductCartItem> productCartItems = getProductCartItems();
-        BigDecimal totalValue = getTotalValue();
+        textTotalValue = view.findViewById(R.id.textTotalValue);
 
         // Update the UI with the initial data
         updateSelectedAddress(selectedAddress);
@@ -61,71 +55,6 @@ public class FragmentOrderSummary extends Fragment implements SharedPreferences.
         updateTotalValue(totalValue);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Register this fragment as a listener for changes in SharedPreferences
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        // Unregister this fragment as a listener when it's not visible
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        // Listen for changes in selectedAddress and selectedPaymentMethod
-        if (key.equals("selectedAddress")) {
-            Address selectedAddress = getSelectedAddress();
-            updateSelectedAddress(selectedAddress);
-        } else if (key.equals("selectedPaymentMethod")) {
-            CreditDebitCard selectedPaymentMethod = getSelectedPaymentMethod();
-            updateSelectedPaymentMethod(selectedPaymentMethod);
-        }
-    }
-
-    private Address getSelectedAddress() {
-        String selectedAddressJson = sharedPreferences.getString("selectedAddress", "");
-        return new Gson().fromJson(selectedAddressJson, Address.class);
-    }
-
-    private CreditDebitCard getSelectedPaymentMethod() {
-        String selectedPaymentMethodJson = sharedPreferences.getString("selectedPaymentMethod", "");
-        return new Gson().fromJson(selectedPaymentMethodJson, CreditDebitCard.class);
-    }
-
-    private List<ProductCartItem> getProductCartItems() {
-        String productCartItemsJson = sharedPreferences.getString("productCartItems", null);
-        if (productCartItemsJson != null) {
-           return gson.fromJson(productCartItemsJson, new TypeToken<List<ProductCartItem>>() {}.getType());
-        } else {
-            return new ArrayList<>();
-        }
-    }
-
-    public BigDecimal getTotalValue(){
-        String productCartItemsJson = sharedPreferences.getString("productCartItems", null);
-        if (productCartItemsJson != null) {
-            List<ProductCartItem> productCartItems = gson.fromJson(productCartItemsJson, new TypeToken<List<ProductCartItem>>() {}.getType());
-
-            BigDecimal totalValue = BigDecimal.ZERO;
-
-            for (ProductCartItem productCartItem : productCartItems) {
-                BigDecimal itemPrice = productCartItem.getProduct().getPrice();
-                int itemQuantity = productCartItem.getProductCartItemQuantity();
-                BigDecimal itemTotal = itemPrice.multiply(BigDecimal.valueOf(itemQuantity));
-                totalValue = totalValue.add(itemTotal);
-            }
-
-            return totalValue;
-        } else {
-            return BigDecimal.ZERO;
-        }
     }
 
     private void updateSelectedAddress(Address selectedAddress) {

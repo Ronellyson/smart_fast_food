@@ -79,7 +79,7 @@ public class FragmentHomePage extends Fragment {
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtém a referência à MainActivity
+                // Obtém a referência à FragmentDynamicPage
                 FragmentDynamicPage fragmentDynamicPage = (FragmentDynamicPage) requireParentFragment();
 
                 // Notifica a MainActivity sobre a atualização do estado do botão

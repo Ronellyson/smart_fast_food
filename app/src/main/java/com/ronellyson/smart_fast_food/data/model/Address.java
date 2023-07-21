@@ -97,5 +97,17 @@ public class Address {
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
+
+    @Override
+    public String toString() {
+        return "  Nome do Titular: '" + holder + '\'' +
+                "\n  Rua: '" + street + '\'' +
+                "\n  Número: '" + number + '\'' +
+                "\n  Bairro: '" + neighborhood + '\'' +
+                "\n  CEP: '" + zipCode + '\'' +
+                "\n  Estado: '" + state + '\'' +
+                "\n  País: '" + country + '\'' +
+                "\n  Telefone: '" + phone + '\'';
+    }
 }
 
