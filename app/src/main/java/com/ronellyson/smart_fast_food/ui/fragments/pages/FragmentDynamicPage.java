@@ -55,10 +55,10 @@ public class FragmentDynamicPage extends Fragment implements SharedPreferences.O
         // Confirma a transação
         fragmentTransaction.commit();
 
-//        showFragmentHomePage();
+        showFragmentHomePage();
 //        showFragmentAddressManagementPage();
 //        showFragmentPaymentManagement();
-        showFragmentOrderHistoryPage();
+//        showFragmentOrderHistoryPage();
         return rootView;
     }
 
