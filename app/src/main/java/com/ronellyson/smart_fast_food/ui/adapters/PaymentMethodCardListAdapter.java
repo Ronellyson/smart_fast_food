@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Address;
 import com.ronellyson.smart_fast_food.data.model.CreditDebitCard;
+import com.ronellyson.smart_fast_food.ui.contracts.OnPaymentMethodSelectedListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,11 +31,8 @@ public class PaymentMethodCardListAdapter extends RecyclerView.Adapter<PaymentMe
     private SharedPreferences sharedPreferences;
     private Gson gson = new Gson();
 
-    private OnItemClickListener onItemClickListener;
+    private OnPaymentMethodSelectedListener onPaymentMethodSelectedListener;
 
-    public interface OnItemClickListener {
-        void onItemClick(CreditDebitCard card);
-    }
 
     public PaymentMethodCardListAdapter(SharedPreferences sharedPreferences, boolean showCheckBoxes, boolean showActionButtons) {
         this.sharedPreferences = sharedPreferences;
@@ -75,14 +73,24 @@ public class PaymentMethodCardListAdapter extends RecyclerView.Adapter<PaymentMe
     }
 
     public void setSelectedPaymentMethod(CreditDebitCard selectedPaymentMethod) {
+        // Convert the selectedPaymentMethod object to a JSON string
+        String selectedPaymentMethodJson = gson.toJson(selectedPaymentMethod);
+
+        // Save the JSON string to SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("selectedPaymentMethod", selectedPaymentMethodJson);
+        editor.apply();
+
+        // Update the isSelected property for each card in the list
         for (CreditDebitCard card : cardList) {
             card.setIsSelected(card.equals(selectedPaymentMethod));
         }
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+
+    public void setOnItemClickListener(OnPaymentMethodSelectedListener onPaymentMethodSelectedListener) {
+        this.onPaymentMethodSelectedListener = onPaymentMethodSelectedListener;
     }
 
     @NonNull
@@ -113,8 +121,8 @@ public class PaymentMethodCardListAdapter extends RecyclerView.Adapter<PaymentMe
                     // Update the checkbox state
                     holder.checkBox.setChecked(card.isSelected());
 
-                    if (onItemClickListener != null && card.isSelected()) {
-                        onItemClickListener.onItemClick(card);
+                    if (onPaymentMethodSelectedListener != null && card.isSelected()) {
+                        onPaymentMethodSelectedListener.onPaymentMethodSelected(card);
                     }
 
                     // Notify the adapter of the selected address, so it can update the other checkboxes

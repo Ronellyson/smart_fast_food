@@ -23,10 +23,10 @@ import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentAddressCar
 import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentOrderSummary;
 import com.ronellyson.smart_fast_food.ui.fragments.components.FragmentPaymentMethodCardList;
 
-public class FragmentOrderDetailsPage extends Fragment implements OnPaymentMethodSelectedListener, OnAddressSelectedListener {
+public class FragmentOrderDetailsPage extends Fragment{
 
     SharedPreferences sharedPreferences;
-    private CreditDebitCard selectedPayment;
+    private CreditDebitCard creditDebitCardSelected;
     private Address selectedAddress;
 
     public static FragmentOrderDetailsPage newInstance(SharedPreferences sharedPreferences) {
@@ -56,13 +56,13 @@ public class FragmentOrderDetailsPage extends Fragment implements OnPaymentMetho
         FragmentManager fragmentManager = getChildFragmentManager();
 
         // Cria uma instância do fragmento que você deseja exibir
-        FragmentAddressCardList fragmentProductCardList = FragmentAddressCardList.newInstance(sharedPreferences, true, false);
+        FragmentAddressCardList fragmentAddressCardList = FragmentAddressCardList.newInstance(sharedPreferences, true, false);
 
         // Inicia a transação do fragmento
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Adiciona o fragmento ao container do fragmento principal
-        fragmentTransaction.add(R.id.order_details_page_address_card_list_container, fragmentProductCardList);
+        fragmentTransaction.add(R.id.order_details_page_address_card_list_container, fragmentAddressCardList);
 
         // Cria uma instância do fragmento que você deseja exibir
         FragmentPaymentMethodCardList fragmentPaymentMethodCardList = FragmentPaymentMethodCardList.newInstance(sharedPreferences, true, false);
@@ -79,26 +79,18 @@ public class FragmentOrderDetailsPage extends Fragment implements OnPaymentMetho
         // Confirma a transação
         fragmentTransaction.commit();
 
+
         return rootView;
     }
 
     @Override
-    public void onPaymentMethodSelected(CreditDebitCard selectedPayment) {
-        Log.d("onPaymentMethodSelected", selectedPayment.getCardHolderName());
-        this.selectedPayment = selectedPayment;
-        saveSelectedPaymentAndAddress(selectedPayment, selectedAddress);
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Clear the selectedPaymentMethod and selectedAddress from SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("selectedPaymentMethod");
+        editor.remove("selectedAddress");
+        editor.apply();
     }
-
-    @Override
-    public void onAddressSelected(Address selectedAddress) {
-        Log.d("onAddressSelected", selectedAddress.getHolder());
-        this.selectedAddress = selectedAddress;
-        saveSelectedPaymentAndAddress(selectedPayment, selectedAddress);
-    }
-
-    private void saveSelectedPaymentAndAddress(CreditDebitCard selectedPayment, Address selectedAddress) {
-
-    }
-
 }
 

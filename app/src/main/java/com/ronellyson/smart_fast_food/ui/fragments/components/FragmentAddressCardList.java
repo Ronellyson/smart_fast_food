@@ -24,15 +24,13 @@ import com.ronellyson.smart_fast_food.ui.contracts.OnAddressSelectedListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentAddressCardList extends Fragment implements OnAddressSelectedListener{
+public class FragmentAddressCardList extends Fragment{
 
     private RecyclerView recyclerView;
     private AddressCardListAdapter addressCardListAdapter;
     private Boolean showCheckBoxes;
     private Boolean showActionButtons;
     private SharedPreferences sharedPreferences;
-
-    private OnAddressSelectedListener onAddressSelectedListener;
 
     public static FragmentAddressCardList newInstance(SharedPreferences sharedPreferences, Boolean showCheckBoxes, Boolean showActionButtons) {
         FragmentAddressCardList fragment = new FragmentAddressCardList();
@@ -54,43 +52,15 @@ public class FragmentAddressCardList extends Fragment implements OnAddressSelect
         // Inicializa a lista de endereços
         addressCardListAdapter = new AddressCardListAdapter(sharedPreferences, showCheckBoxes, showActionButtons);
 
-        addressCardListAdapter.setOnItemClickListener(new AddressCardListAdapter.OnItemClickListener() {
+        addressCardListAdapter.setOnAddressSelectedListener(new OnAddressSelectedListener() {
             @Override
-            public void onItemClick(Address address) {
-                Log.d("addressCardListAdapterOnItemClick", address.getHolder());
-                addressCardListAdapter.setSelectedAddress(address);
-                handleSelectionChange(address);
+            public void onAddressSelected(Address selectedAddress) {
+                addressCardListAdapter.setSelectedAddress(selectedAddress);
             }
         });
 
         recyclerView.setAdapter(addressCardListAdapter);
 
         return view;
-    }
-
-
-    // Method to handle selection changes and notify the parent fragment
-    private void handleSelectionChange(Address selectedAddress) {
-        // Notify the parent fragment about the selection change
-        if (onAddressSelectedListener != null) {
-            onAddressSelectedListener.onAddressSelected(selectedAddress);
-        }
-    }
-
-    public AddressCardListAdapter getAddressCardListAdapter() {
-        return addressCardListAdapter;
-    }
-
-    @Override
-    public void onAddressSelected(Address address) {
-        // Handle the selected address here
-        // Save it or perform any other actions as needed
-        // For example, you can update the selected address in the PaymentMethodCardListAdapter.
-        if (addressCardListAdapter != null) {
-            // Update the selected address in the paymentMethodCardListAdapter
-            addressCardListAdapter.setSelectedAddress(address);
-            // Notify the adapter to refresh the RecyclerView
-            addressCardListAdapter.notifyDataSetChanged();
-        }
     }
 }

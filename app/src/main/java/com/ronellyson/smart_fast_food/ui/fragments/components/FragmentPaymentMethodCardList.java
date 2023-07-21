@@ -16,19 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.CreditDebitCard;
+import com.ronellyson.smart_fast_food.ui.adapters.AddressCardListAdapter;
 import com.ronellyson.smart_fast_food.ui.adapters.PaymentMethodCardListAdapter;
 import com.ronellyson.smart_fast_food.ui.contracts.OnPaymentMethodSelectedListener;
 
-public class FragmentPaymentMethodCardList extends Fragment {
+public class FragmentPaymentMethodCardList extends Fragment{
 
     private RecyclerView recyclerView;
     private PaymentMethodCardListAdapter paymentMethodCardListAdapter;
     private Boolean showCheckBoxes;
     private Boolean showActionButtons;
     private SharedPreferences sharedPreferences;
-    private Gson gson = new Gson();
-
-    private OnPaymentMethodSelectedListener onPaymentMethodSelectedListener;
 
     public static FragmentPaymentMethodCardList newInstance(SharedPreferences sharedPreferences, Boolean showCheckBoxes, Boolean showActionButtons) {
         FragmentPaymentMethodCardList fragment = new FragmentPaymentMethodCardList();
@@ -49,30 +47,15 @@ public class FragmentPaymentMethodCardList extends Fragment {
         paymentMethodCardListAdapter = new PaymentMethodCardListAdapter(sharedPreferences, showCheckBoxes, showActionButtons);
 
         // Set the listener for item click events
-        paymentMethodCardListAdapter.setOnItemClickListener(new PaymentMethodCardListAdapter.OnItemClickListener() {
+        paymentMethodCardListAdapter.setOnItemClickListener(new OnPaymentMethodSelectedListener() {
             @Override
-            public void onItemClick(CreditDebitCard card) {
-                Log.d("paymentMethodCardListAdapteronItemClick", card.getCardHolderName());
-                paymentMethodCardListAdapter.setSelectedPaymentMethod(card);
-                handleSelectionChange(card);
+            public void onPaymentMethodSelected(CreditDebitCard selectedPayment) {
+                paymentMethodCardListAdapter.setSelectedPaymentMethod(selectedPayment);
             }
         });
 
         recyclerView.setAdapter(paymentMethodCardListAdapter);
 
         return view;
-    }
-
-    private void handleSelectionChange(CreditDebitCard selectedCard) {
-        // Save the selected credit/debit card as JSON to SharedPreferences
-        String cardJson = gson.toJson(selectedCard);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("selectedPayment", cardJson);
-        editor.apply();
-
-        // Notify the parent fragment about the selection change
-        if (onPaymentMethodSelectedListener != null) {
-            onPaymentMethodSelectedListener.onPaymentMethodSelected(selectedCard);
-        }
     }
 }

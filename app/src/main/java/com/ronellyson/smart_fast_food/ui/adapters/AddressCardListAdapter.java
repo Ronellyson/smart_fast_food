@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.ronellyson.smart_fast_food.R;
 import com.ronellyson.smart_fast_food.data.model.Address;
 import com.ronellyson.smart_fast_food.data.model.CreditDebitCard;
+import com.ronellyson.smart_fast_food.ui.contracts.OnAddressSelectedListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,11 +31,7 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
     private SharedPreferences sharedPreferences;
     private Gson gson = new Gson();
 
-    private OnItemClickListener onItemClickListener;
-
-    public interface OnItemClickListener {
-        void onItemClick(Address address);
-    }
+    private OnAddressSelectedListener onAddressSelectedListener;
 
     // Add a new constructor to receive a boolean flag indicating if the cards should have selectable checkboxes or not
     public AddressCardListAdapter(SharedPreferences sharedPreferences, Boolean showCheckBoxes, Boolean showActionButtons) {
@@ -79,14 +76,24 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
     }
 
     public void setSelectedAddress(Address selectedAddress) {
+        // Convert the selectedAddress object to a JSON string
+        String selectedAddressJson = gson.toJson(selectedAddress);
+
+        // Save the JSON string to SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("selectedAddress", selectedAddressJson);
+        editor.apply();
+
+        // Update the isSelected property for each address in the list
         for (Address address : addressList) {
             address.setIsSelected(address.equals(selectedAddress));
         }
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+
+    public void setOnAddressSelectedListener(OnAddressSelectedListener onAddressSelectedListener) {
+        this.onAddressSelectedListener = onAddressSelectedListener;
     }
 
     @NonNull
@@ -124,8 +131,8 @@ public class AddressCardListAdapter extends RecyclerView.Adapter<AddressCardList
                     // Update the checkbox state
                     holder.checkBox.setChecked(address.isSelected());
 
-                    if (onItemClickListener != null && address.isSelected()) {
-                        onItemClickListener.onItemClick(address);
+                    if (onAddressSelectedListener != null && address.isSelected()) {
+                        onAddressSelectedListener.onAddressSelected(address);
                     }
 
                     // Notify the adapter of the selected address, so it can update the other checkboxes

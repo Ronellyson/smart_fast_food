@@ -8,14 +8,15 @@ import java.util.List;
 public class DeliveryOrder {
     private Date orderDateTime;
     private Status orderStatus;
-
     private Address address;
+    private CreditDebitCard creditDebitCard;
     private List<ProductCartItem> productCartItems;
 
-    public DeliveryOrder(Date orderDateTime, Status orderStatus, Address address, List<ProductCartItem> productCartItems) {
+    public DeliveryOrder(Date orderDateTime, Status orderStatus, Address address, CreditDebitCard  creditDebitCard, List<ProductCartItem> productCartItems) {
         this.orderDateTime = orderDateTime;
         this.orderStatus = orderStatus;
         this.address = address;
+        this.creditDebitCard = creditDebitCard;
         this.productCartItems = productCartItems;
     }
 
