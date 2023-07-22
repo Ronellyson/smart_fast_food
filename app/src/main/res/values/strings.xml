@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">smart_fast_food</string>
+    <string name="remove_button_text">REMOVER</string>
+    <string name="add_button_text">ADICIONAR</string>
+    <string name="home_page_button">Tela inicial</string>
+    <string name="order_history_button">Histórico de Pedidos</string>
+    <string name="address_management_button">Gerenciar Endereços</string>
+    <string name="payment_management_button">Gerenciar Meios de Pagamento</string>
 </resources>

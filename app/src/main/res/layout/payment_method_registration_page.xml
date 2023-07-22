@@ -1,0 +1,154 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:text="Payment Method Registration Page"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="32dp"
+            android:layout_alignParentStart="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:layout_below="@id/topPanel"
+        android:layout_marginVertical="20dp">
+
+        <EditText
+            android:id="@+id/edit_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Card Holder"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            />
+
+        <EditText
+            android:id="@+id/edit_card_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Card Number"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            />
+
+        <EditText
+            android:id="@+id/edit_expiry_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Expiry Date (MM/YY)"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            />
+
+        <EditText
+            android:id="@+id/edit_security_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Security Code (CVV)"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            />
+
+        <TextView
+            android:id="@+id/payment_type_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment Type:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            />
+
+        <RadioGroup
+            android:id="@+id/radio_group_payment_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_credit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credit"
+                android:textColor="@color/colorPrimary"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_debit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debit"
+                android:textColor="@color/colorPrimary"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:layout_below="@+id/form"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Cancel"
+            android:textSize="18sp"
+            style="@style/TextAppearance.AppCompat.Button"
+            android:background="@drawable/button_cancel_background"
+            android:textColor="@android:color/white" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Register"
+            android:textSize="18sp"
+            style="@style/TextAppearance.AppCompat.Button"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

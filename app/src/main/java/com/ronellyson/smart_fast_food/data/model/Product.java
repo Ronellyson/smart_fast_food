@@ -1,16 +1,21 @@
 package com.ronellyson.smart_fast_food.data.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.UUID;
+
 public class Product {
 
     private String id;
     private String name;
     private String urlImage;
 
-    private Number price;
+    private BigDecimal price;
     private String description;
     private int rate;
 
-    public Product(String name, String urlImage, double responsePrice, String description, Number price) {
+    public Product(String id,String name, String urlImage, BigDecimal price, String description, int rate) {
+        this.id = id;
         this.name = name;
         this.urlImage = urlImage;
         this.price = price;
@@ -38,11 +43,11 @@ public class Product {
         this.urlImage = urlImage;
     }
 
-    public Number getPrice() {
-        return price;
+    public BigDecimal getPrice() {
+        return price.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public void setPrice(Number price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -60,5 +65,17 @@ public class Product {
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", rate=" + rate +
+                '}';
     }
 }

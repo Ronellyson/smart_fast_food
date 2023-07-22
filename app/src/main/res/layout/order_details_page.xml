@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/product_cart_page_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/arrow_back"
+                android:background="@drawable/button_background"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="0.2">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:text="Order Details"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="32dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/address_card_list_container_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lista de endereços:"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="16dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/order_details_page_address_card_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/payment_card_list_container_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pagamentos"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="16dp" />
+
+    <FrameLayout
+        android:id="@+id/order_details_page_payment_method_card_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/order_resume_container_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resumo do pedido"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="16dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/order_resume_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnPlaceOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finalizar"
+        android:layout_margin="10dp"
+        style="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background" />
+
+</LinearLayout>

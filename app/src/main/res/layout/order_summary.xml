@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textSelectedAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Endereço Selecionado"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textAddressDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textSelectedAddress" />
+
+        <TextView
+            android:id="@+id/textPaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Método de pagamento"
+            android:textStyle="bold"
+            android:layout_below="@id/textAddressDetails" />
+
+        <TextView
+            android:id="@+id/textSelectedPaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textPaymentMethod" />
+
+        <TextView
+            android:id="@+id/textProductCartItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Produtos Selecionados:"
+            android:textStyle="bold"
+            android:layout_below="@id/textSelectedPaymentMethod" />
+
+        <LinearLayout
+            android:id="@+id/productCartItemsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textProductCartItems"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+            <!-- This LinearLayout will be used to add dynamically generated ProductCartItem views -->
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textTotalAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Valor total"
+            android:textStyle="bold"
+            android:layout_below="@id/productCartItemsContainer" />
+
+        <TextView
+            android:id="@+id/textTotalValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textTotalAmount" />
+
+    </RelativeLayout>
+</ScrollView>
