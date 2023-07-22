@@ -108,6 +108,7 @@
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
             android:text="Endereço: "
+            android:textStyle="bold"
             android:layout_below="@id/order_total_value"
             android:visibility="gone" />
 
@@ -130,6 +131,7 @@
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
             android:text="Método de pagamento: "
+            android:textStyle="bold"
             android:layout_below="@id/delivery_address_value"
             android:visibility="gone" />
 

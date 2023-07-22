@@ -51,6 +51,34 @@ public class FragmentOrderDetailsPage extends Fragment{
         return fragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register the SharedPreferences listener in onResume
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onPause() {
+        // Unregister the SharedPreferences listener in onPause
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        super.onPause();
+    }
+
+    // Define the OnSharedPreferenceChangeListener as a member variable
+    private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
+            new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    // Check if the selectedAddress or selectedPaymentMethod has changed
+                    if (key.equals("selectedAddress") || key.equals("selectedPaymentMethod")) {
+                        Log.d("FragmentOrderDetailsPageOnSharedPreferenceChanged", key);
+                        // Update the FragmentOrderSummary with the new data
+                        updateFragmentOrderSummary();
+                    }
+                }
+    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -126,6 +154,28 @@ public class FragmentOrderDetailsPage extends Fragment{
 
 
         return rootView;
+    }
+
+    // Method to update FragmentOrderSummary with new data
+    private void updateFragmentOrderSummary() {
+        Address selectedAddress = getSelectedAddress();
+        CreditDebitCard selectedPaymentMethod = getSelectedPaymentMethod();
+        List<ProductCartItem> productCartItems = getProductCartItems();
+        BigDecimal totalValue = getTotalValue();
+
+        // Obtém o FragmentManager
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Cria uma instância do fragmento que você deseja exibir
+        FragmentOrderSummary fragmentOrderSummary = FragmentOrderSummary.newInstance(selectedAddress, selectedPaymentMethod, productCartItems, totalValue);
+
+        // Replace the existing FragmentOrderSummary with the updated one
+        fragmentTransaction.replace(R.id.order_resume_container, fragmentOrderSummary);
+
+        // Commit the transaction with commitAllowingStateLoss
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     private void saveDeliveryOrderToHistory(DeliveryOrder deliveryOrder) {
